@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#201e20">
+  <title>The Inn Between</title>
+  <link rel="stylesheet" href="game.css">
+</head>
+<body>
+  <div class="room" aria-hidden="true"></div>
+  <main class="table" aria-label="The Inn Between">
+    <section id="meters" aria-label="Состояние таверны"></section>
+    <section class="audience" aria-label="Встреча">
+      <div class="speech" aria-live="polite"><p id="line"></p></div>
+      <div class="stack">
+        <div class="pile" aria-hidden="true"></div>
+        <div id="card">
+          <div class="turner">
+            <div class="reverse" aria-hidden="true"></div>
+            <article class="front" aria-labelledby="name">
+              <img id="scene" src="art/card-scene.svg" alt="" draggable="false">
+              <img id="portrait" src="art/morwen.svg" alt="" draggable="false">
+              <div id="ferry-face" class="ferry-art" role="img" hidden></div>
+              <div id="paper" hidden><p id="passage" aria-live="polite"></p></div>
+              <div id="last-scene" role="img" hidden></div>
+              <div id="preview" hidden aria-hidden="true"><span></span><small hidden>Конец партии</small></div>
+            </article>
+          </div>
+        </div>
+      </div>
+      <div class="caption"><h1 id="name"></h1><p id="role"></p></div>
+    </section>
+    <footer class="counter">
+      <div class="brand"><img src="art/lantern.svg" alt="">The Inn Between</div>
+      <div class="decision-row"><section id="choices" aria-label="Карточки ответов">
+        <button type="button" class="reply left">
+          <span class="reply-art" aria-hidden="true"></span><span class="reply-copy"><span class="reply-text"></span><small hidden>Конец партии</small></span>
+        </button>
+        <button type="button" class="reply right">
+          <span class="reply-art" aria-hidden="true"></span><span class="reply-copy"><span class="reply-text"></span><small hidden>Конец партии</small></span>
+        </button>
+      </section>
+      <div id="page-controls" hidden>
+        <button id="advance" type="button">Следующий гость</button>
+        <button id="again" type="button" hidden>Начать заново</button>
+      </div></div>
+      <div class="tools">
+        <span id="night"></span>
+        <details>
+          <summary aria-label="Настройки" title="Настройки">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h6m6 0h6M3 17h11m6 0h1"/><circle cx="12" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></svg>
+          </summary>
+          <div class="menu">
+            <p class="house-rule">Хозяин погибнет, если любая шкала дойдёт до 0 или 100.</p>
+            <label><input id="mute" type="checkbox" checked> Без звука</label>
+            <label for="volume">Громкость</label><input id="volume" type="range" min="0" max="100" value="45">
+            <button id="reset" type="button">Начать заново</button>
+          </div>
+        </details>
+      </div>
+    </footer>
+  </main>
+  <section id="chronicle" aria-labelledby="book-title" hidden>
+    <h1 id="book-title">Гостевая книга</h1>
+    <div class="tally"><strong id="score"></strong> очков <span id="visit-count"></span></div>
+    <div class="keepsake">
+      <div id="token-art" aria-hidden="true"></div>
+      <h2 id="token-title"></h2>
+      <div id="stars" role="img"></div>
+    </div>
+    <p id="token-note"></p>
+    <button id="new-life" type="button">Открыть таверну снова</button>
+  </section>
+  <script src="config.js"></script>
+  <script src="cards.js"></script>
+  <script src="ferry.js"></script>
+  <script src="chapter.js"></script>
+  <script src="engine.js"></script>
+</body>
+</html>

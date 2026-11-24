@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320">
+  <title>Морвен Вейл с предложением платы за комнату</title>
+  <style>
+    .eyes{transform-box:fill-box;transform-origin:center 30%;animation:blink 7.6s linear infinite}
+    @keyframes blink{0%,63%,65.5%,100%{transform:scaleY(1)}64.4%{transform:scaleY(.12)}}
+    @media(prefers-reduced-motion:reduce){.eyes{animation:none}}
+  </style>
+  <!-- Hair is one broad silhouette, with the lit locks cut out in plum. -->
+  <path fill="#211c2b" d="M51 320l11-44-19 5 22-36-13 3 22-34-11 1 21-44 2-49 12-40 24-27 32-13 36 4 27 18 14 28 1 34-8 34 2 30 14 34-10-4 19 35-15-4 15 38-15-6 12 33z"/>
+  <path fill="#443342" d="M61 258l26-49 6-46 1-39 14-40 25-23-15 25-12 42-1 45-12 43zm147-153 9 18-6 39 4 39 13 28-16-15-8-33z"/>
+  <!-- Narrow neck and the velvet shoulders. -->
+  <path fill="#bc8175" d="M133 172h48l-3 41 25 19-46 46-49-49 30-20z"/>
+  <path fill="#eed1a8" d="M153 182l25-8-4 36 17 17-24 26-18-15z"/>
+  <path fill="#74273d" d="M10 320l12-53 24-28 44-15 33-15 32 35 32-37 32 14 49 15 25 29 16 55z"/>
+  <path fill="#ad4351" d="M14 320l13-49 21-24 39-15-20 18-13 27-6 43zm195-93 30 8 25 23 11 62h-32l-9-53z"/>
+  <path fill="#4d2333" d="M63 320l10-54 22-25 29-9 25 27-7 61zm120 0 8-63 24-23 14 11-11 42-2 33z"/>
+  <path fill="#2c2432" d="M88 190l37 19 34 37 28-33 27-32-2 44-21 26-29 61-34-64-23-13z"/>
+  <path fill="#513645" d="M88 190l37 19 33 37-41-24zm98 42 28-51-2 26z"/>
+  <path fill="#d8ae84" d="M123 226l36 22 30-29-30 34z"/>
+  <path fill="#e6c391" d="M151 250l9-7 8 7-9 16z"/><path fill="#a6444e" d="M155 250l5-4 4 4-5 9z"/>
+  <!-- The near cheek and the shaded cheek meet on the bridge of the nose. -->
+  <path fill="#efc8a3" d="M110 110l19-28 34-12 29 12 15 26-1 26-5 22-10 20-26 24-16-2-27-20-12-25-9-6-5-16 5-7 10 6z"/>
+  <path fill="#ca9182" d="M166 75l26 7 15 26-1 26-5 22-10 20-26 24-9-4 7-22-1-21 9-5-6-8z"/>
+  <path fill="#24202c" d="M94 142l-2-27 6-34 29-27 34-8 33 9 22 23 8 24-10 30-9 10 3-32-12-9-13-22-5 17-16-14-17 16-25 13-10 30-12 8 6-23z"/>
+  <path fill="#4b3544" d="M104 100l10-22 28-18 33-6-19 11-21 9zm79-37 19 7 13 15 3 12-12-18z"/>
+  <!-- A narrow comb and one long earring distinguish her from a queen. -->
+  <path fill="#ac8968" d="M94 101l4-21 13-23 21-12-18 18-12 19-4 20z"/>
+  <path fill="#d6ab7b" d="M94 94l9-26 20-17-17 21-7 22zm7-8 13-24 16-8-13 12-13 23z"/>
+  <path fill="#f0d9ad" d="M96 88l5 2-1 6-6 1-2-5zm12-16 5 1 1 5-5 3-4-4z"/>
+  <path fill="#3b2931" d="M123 124l12-7 13 2 2 3-13-1-12 6zm50-4 13-4 10 4-3 1-8-1-12 4z"/>
+  <path class="eyes" fill="#2c222c" d="M131 130l10-2-3 5-1 12-5 1zm47-3 10-2-3 4-1 12-5 1z"/>
+  <path fill="#a56f68" d="M163 143l8 5-8 5-4-2z"/>
+  <path fill="#8b454c" d="M153 167l11-5 9 1-6 5-7 2z"/>
+  <path fill="#e6bd83" d="M104 144l4 3-2 4-4-2zM104 151l3 5-4 16-5-8z"/>
+  <!-- Locks over the velvet keep their broken, wavy edge at arm's length. -->
+  <path fill="#292331" d="M94 136l2 30-13 22-9 10-1 13 7 17-2 17-11 13-16 7 12-12 5-12-4-12-8-12-1-14 7-15 17-17 8-22z"/>
+  <path fill="#4c3749" d="M85 165l-6 15-14 16-4 14 6 15 7 11-2 13 6-10-1-10-8-16 2-14 10-13z"/>
+  <path fill="#282230" d="M216 132l1 24-8 29 2 18 15 20 4 19-10 16-13 9 9-16-1-13-18-21-5-18 3-21zM93 153l8 11-1 22-15 28-2 18 7 18-13-8-6-17 4-25 13-23z"/>
+  <path fill="#483442" d="M209 161l-8 30 3 15 15 19 4 14-9-13-14-15-5-19z"/>
+  <!-- A coin held out at the edge of a dark glove. -->
+  <path fill="#982f45" d="M32 320l13-41 15-13 25 8 13 46z"/>
+  <path fill="#28232f" d="M46 279l1-24 8-15 3-16 5-4 4 4-2 15 11-7 7 2 1 7-9 8 11-1 3 5-10 15-11 13z"/>
+  <path fill="#c6a272" d="M45 275l28 4 3 8-32-6z"/>
+  <path fill="#ad7448" d="M58 220l4-9 10-2 7 6-1 11-9 6-9-4z"/><path fill="#f8ce80" d="M57 218l5-9 9-2 7 6-2 10-9 6-9-4z"/><path fill="#ca9155" d="M66 212l4 4-4 8-3-5z"/>
+</svg>

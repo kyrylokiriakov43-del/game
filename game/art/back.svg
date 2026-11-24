@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320">
+  <title>Рубашка колоды с гербом полуночной таверны</title>
+  <defs>
+    <pattern id="stitches" width="37" height="37" patternUnits="userSpaceOnUse">
+      <path d="M18 9l7 9-7 10-7-10zm0 4-3 5 3 6 4-6z" fill="#805246" fill-rule="evenodd"/>
+    </pattern>
+  </defs>
+  <rect width="320" height="320" rx="10" fill="#432b32"/>
+  <rect x="7" y="7" width="306" height="306" rx="5" fill="url(#stitches)" stroke="#b28c5f" stroke-width="2"/>
+  <path fill="#432b32" stroke="#ba9366" stroke-width="3" d="M160 51l72 108-72 110-72-110z"/>
+  <path fill="#6a4140" d="M160 64l62 95-62 96-62-96z"/>
+  <g transform="translate(160 155) scale(.94)"><g fill="#e4c28b">
+      <path d="M-37-37l19 10 17-4 20 4 16-13-2 28 8 17 0 20-12-8-4 17-11-7-13 17-13-14-12 6-3-16-12 6 3-24 5-15z"/>
+      <path fill="#8b3d43" d="M-27-15l17 2 10 8-6 13-13-2-7-9zm54 0-17 2L0-5l6 13 13-2 7-9z"/>
+      <path d="M-20-7l10 4-5 4-5-3zm40 0-10 4 5 4 5-3z"/>
+      <path fill="#8b3d43" d="M-4 6l4-3 4 3-4 8zM-31 9l11 10 3 10-10-7zm62 0-11 10-3 10 10-7zM-7 21l7 5 7-5-7 11z"/>
+      <path d="M-37 46h58v5h-58zm7 2v13h5v-7h5v-6z"/>
+      <path fill-rule="evenodd" d="M27 39l8 4 1 9-7 6-9-3-2-9zm1 5-5 4 2 5 5-1 2-4z"/>
+      <path d="M-12 35h5l2 13-5 4zm21 0h5l-1 15-6-1z"/>
+    </g></g>
+</svg>

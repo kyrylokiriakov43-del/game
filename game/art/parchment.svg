@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320">
+  <title>Лист из книги таверны</title>
+  <defs>
+    <pattern id="weave" width="115" height="115" patternUnits="userSpaceOnUse" x="-14" y="-13">
+      <g fill="none" stroke="#b39e74" stroke-width="2.5">
+        <path d="M46 32l10 11-10 12-11-11zM46 38l5 5-5 6-5-5z"/>
+        <path d="M104 88l6 7-6 7-6-7z"/>
+      </g>
+    </pattern>
+  </defs>
+  <rect x="1.2" y="1.2" width="317.6" height="317.6" rx="9" fill="#e9dcba" stroke="#977e55" stroke-width="2.4"/>
+  <rect x="5" y="5" width="310" height="310" rx="6" fill="url(#weave)" opacity=".18"/>
+  <path fill="none" stroke="#b39a72" opacity=".68" stroke-width="1" d="M12 43V22l10-10h24m228 0h24l10 10v21M12 277v21l10 10h24m228 0h24l10-10v-21"/>
+  <g fill="#a58b64" opacity=".7"><path d="M15 15h8l-8 8zm290 0v8l-8-8zM15 305v-8l8 8zm290 0h-8l8-8z"/></g>
+</svg>

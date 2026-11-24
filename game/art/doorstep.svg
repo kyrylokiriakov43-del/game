@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1600 1000">
+  <title>С порога таверны. Мокрая улица у старых ворот</title>
+  <defs>
+    <g id="brick" fill="#8c9991"><path d="M0 5l25-5 23 4-29 6z"/></g>
+    <g id="rain" fill="none" stroke="#d3d9cc" stroke-width="2">
+      <path d="M0 0l-5 24m89 96-4 18m72-82-4 19m27 157-4 18m89-170-5 23m65 110-4 22m47-72-5 19"/>
+    </g>
+    <style>
+      .rain{animation:fall 1.65s linear infinite}.far{animation-delay:-.9s}
+      .lantern{animation:waver 2.7s ease-in-out infinite alternate}
+      @keyframes fall{0%{transform:translate(8px,-45px);opacity:0}22%,77%{opacity:.6}100%{transform:translate(-10px,52px);opacity:0}}
+      @keyframes waver{from{opacity:.78}to{opacity:1}}
+      @media(prefers-reduced-motion:reduce){.rain,.lantern{animation:none}}
+    </style>
+  </defs>
+  <rect width="1600" height="1000" fill="#8399a4"/>
+  <path fill="#aab5b5" d="M0 191l161-30 76 18 100-11 89 23 99 8-64 12-136-7-67 9-82-12L0 220zm923-24 106-18 70 8 42-13 119 15 71-3 138 23-187-2-97 11-84-10z"/>
+  <circle cx="317" cy="178" r="43" fill="#e7ddaf"/>
+  <path fill="#829a9b" d="M0 318l116-68 72 17 94-66 59 31 63-18 138 69 88-35 137 65 121-68 89 18 115-65 95 39 122-26 169 81 122-32v143H0z"/>
+  <path fill="#677f82" d="M0 351l103-39 96 15 124-39 93 34 102-23 180 54 212-42 77 16 116-46 123 30 119-34 151 24 104-35v143H0z"/>
+  <!-- Far gate and stepped gables; the street vanishes beneath the pointed arch. -->
+  <path fill="#526971" d="M0 410l61-44 54 26 0-44 20-32 10-43 9 45 19 29v27l29-19 32 24 39-28 25 11v-59l18-23 7-47 7 47 17 23v52l37 20 28-24 50 29 27-15 46 22 35-32 47 17v53H0z"/>
+  <g fill="#d8c48b"><path d="M140 350l5-6v12l-5 2zm10-4 4-3v12l-4 1zm168-26 4-4v13l-4 2zm9-3 5-3v12l-5 2zM236 379h5v7h-5z"/></g>
+  <path fill="#526c69" d="M837 432l151-56 58 18 91-45 69 17 88-37 129 29 91-43 86 35v154l-763 8z"/>
+  <path fill="#3d5759" d="M884 449l79-40 91 4 81-32 73 9 77-27 112 19 88-40 115 24v179H884z"/>
+  <path fill="#758d80" d="M0 440l146-16 151 8 121-17 173 24 250-15 212-12 139 22 140-18 168 13v299H0z"/>
+  <path fill="#9d9f87" d="M260 429l97-8 108 30-74 31-106 26-124 69 92 44 250 11 318-20 386-31 260 20 133 51v222H0V626l107-74 157-68 110-29z"/>
+  <path fill="#6b8074" d="M0 505l114-40 107-9-108 48L0 570zM450 468l120-28 136 5-74 12-84-2-91 24zm610 9 224-36 178 18-199 0-125 28z"/>
+  <!-- Village wall. Each buttress leans toward the same distant corner. -->
+  <path fill="#54645f" d="M0 498l91-12 82-16 98-16 2 37-271 82z"/>
+  <path fill="#849084" d="M0 493l92-15 80-16 100-12 8 7-106 21-84 17-90 14z"/>
+  <path fill="#4a5958" d="M52 484l18-4 5 61-25 9zm131-24 15-3 4 51-20 5z"/>
+  <g transform="translate(91)">
+    <path fill="#4e5c5c" d="M1033 505l0-72 14-33 20-19 22 18 15 32 0 77z"/>
+    <path fill="#374749" d="M1048 506l2-68 7-23 11-16 14 23 3 21-1 65z"/>
+  </g>
+  <path fill="#687c73" d="M0 716l290-102 230 13 281 55 286-35 257 22 256 91v240H0z"/>
+  <path fill="#a0a48e" d="M0 762l258-108 91 4-180 84-119 35zm1034-53 128-33 101 4-133 35zm253 63 98-20 119 13-142 25z"/>
+  <g opacity=".8"><use xlink:href="#brick" transform="translate(157 713) scale(1.6)"/><use xlink:href="#brick" transform="translate(226 696)"/><use xlink:href="#brick" transform="translate(347 666) scale(.85)"/><use xlink:href="#brick" transform="translate(1188 741) scale(1.4)"/><use xlink:href="#brick" transform="translate(1397 797) scale(2)"/></g>
+
+  <!-- Rowan at the doorstep: forked limbs and the last red berries, far above the hand. -->
+  <path fill="#36464a" d="M1417 764l-70-22 15-124-27-83-42-69-8-57-70-52-75-30-42-39-56-18-27-24 66 20 42 23 59 23-36-39-18-44 49 53 47 32 49 24-25-75-2-58-24-50 35 32 17 59-6 37 29 70 41 38 10-77 28-58 6-60-14-43 27 32 2 56-14 56 33-30 22-51 30-19-26 33-14 48-53 54-6 89 22 58-6 78z"/>
+  <path fill="#4d5b55" d="M1366 688l10-69-27-94-35-60-6-51 23 27 8 29 30 40 25 99z"/>
+  <g fill="#984f42"><circle cx="1138" cy="327" r="6"/><circle cx="1148" cy="334" r="5"/><circle cx="1139" cy="338" r="4"/><circle cx="1223" cy="347" r="5"/><circle cx="1231" cy="351" r="5"/><circle cx="1393" cy="278" r="5"/><circle cx="1401" cy="274" r="4"/></g>
+  <!-- The short fence ends at the tavern wall; a handcart has just been unloaded. -->
+  <path fill="#534d40" d="M1001 536l599 116v17l-600-121zm0 34 599 140v19l-599-150z"/>
+  <path fill="#695a48" d="M1009 519l9-2 5 74-12-1zm129 18 14 1 6 85-16-3zm163 26 17 2 5 98-21-5zm211 35 20 1 9 113-22-5z"/>
+  <path fill="#394a45" d="M1106 715l138-28 191 30-86 22z"/>
+  <path fill="none" stroke="#554638" stroke-width="12" d="M1192 670l-71-11-37-19"/>
+  <path fill="#7e6146" d="M1166 624l177-32 54 26-8 47-152 33-70-28z"/>
+  <path fill="#a38057" d="M1161 616l176-31 65 26-165 37z"/>
+  <path fill="#4d4540" d="M1172 643l63 21 159-32-2 9-156 33-63-21z"/>
+  <g stroke="#4d443b" fill="none"><ellipse cx="1254" cy="681" rx="40" ry="46" stroke-width="11"/><path d="M1254 637v88m-39-46 79 4m-67-32 55 63m-58-2 60-62" stroke-width="6"/></g>
+  <path fill="#806947" d="M1221 611l0-53 10-46 58-9 17 36 5 56z"/>
+  <path fill="#aa8661" d="M1233 513l54-10 10 9-59 11z"/>
+  <g fill="#49514b"><path d="M1224 545l77-12 3 9-81 13zm-3 48 87-18 1 11-88 18z"/></g>
+
+  <!-- Oak jamb, the thick iron hinges and a lantern in the near plane. -->
+  <path fill="#372b2e" d="M0 0h1600v58l-445 89 12-22 256-73L465 88 76 49l17 216-21 237 13 185-19 170L0 901z"/>
+  <path fill="#694836" d="M0 60l34 8 9 185-7 212 12 236-8 142-22 9 8-150-13-242 7-229z"/>
+  <path fill="#805a3f" d="M6 37l502 38 12 12L4 58z"/>
+  <path fill="#2c2d30" d="M34 211l100 9 24 9-24 5-98-7zm7 314 99-19 24 3-20 13-100 18z"/>
+  <g fill="#a28865"><circle cx="49" cy="219" r="3"/><circle cx="99" cy="225" r="3"/><circle cx="54" cy="529" r="3"/><circle cx="101" cy="519" r="3"/></g>
+  <path fill="#3f3635" d="M100 72l108-2 9 6-115 10z"/>
+  <path fill="none" stroke="#403838" stroke-width="5" d="M182 77v35m-9 10q0-15 10-15t10 15"/>
+  <path fill="#414143" d="M150 158l32-38 34 34-4 57-26 20-28-17z"/>
+  <path fill="#baa370" d="M151 156l31-33 34 30-28-18z"/>
+  <path class="lantern" fill="#efbf75" d="M158 161l21-3 3 60-18-10zm27-3 23 1-4 49-17 11z"/>
+  <path fill="#f7dda0" d="M164 199l4-13 5 5-1 15z"/>
+
+  <!-- Rain in the street stops at the dry boards under the awning. -->
+  <g opacity=".55"><g class="rain"><use xlink:href="#rain" x="89" y="295"/><use xlink:href="#rain" x="993" y="258"/></g>
+    <g class="rain far"><use xlink:href="#rain" x="170" y="452"/><use xlink:href="#rain" x="1177" y="395"/></g></g>
+  <path fill="#4d433c" d="M0 882l492-151 534 3 574 116v150H0z"/>
+  <path fill="#977b58" d="M0 867l489-142 549 6 562 109v14l-571-104-531-3L0 900z"/>
+  <path fill="#604e3e" d="M0 904l507-154 3 8L0 925zm198 96 434-241 24-1-399 242zm1402-73-502-167-25-5 527 195z"/>
+  <path fill="#d3b787" d="M88 796l75-26 72-5-88 28zm1007-52 54-11 40 3-47 12z"/>
+</svg>

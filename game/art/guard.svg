@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320">
+  <title>Сержант Рутгер со сторожевым фонарём</title>
+  <style>
+    .eyes{transform-box:fill-box;transform-origin:center 30%;animation:blink 8.4s linear infinite}
+    @keyframes blink{0%,63%,65.5%,100%{transform:scaleY(1)}64.4%{transform:scaleY(.12)}}
+    @media(prefers-reduced-motion:reduce){.eyes{animation:none}}
+  </style>
+  <!-- Wide shoulders and an old watch cloak drawn across the chest. -->
+  <path fill="#39424d" d="M0 320l8-49 29-34 64-18 26-13 59-6 32 11 50 15 35 30 17 64z"/>
+  <path fill="#5b6a70" d="M0 320l12-48 29-28 43-14-18 28-28 23-10 39zm219-100 41 12 36 32-13 4-43-14z"/>
+  <path fill="#9e6954" d="M131 177l50-7 4 36 24 10-34 41-52-17-12-15 18-15z"/>
+  <path fill="#6f7458" d="M25 261l74-42 31-12 18 20 26 14 28-36 25 9 15 24-37 35-32 47H35z"/>
+  <path fill="#505742" d="M37 320l12-43 68-41 24 5-55 30-27 49zm130 0 16-62 42-36 15 17-39 35z"/>
+  <path fill="#c09a61" d="M94 224l9-6 97 102h-16z"/><path fill="#d8b480" d="M131 252l22 22-12 12-22-22zm0 7-5 5 15 15 5-5z" fill-rule="evenodd"/>
+  <!-- Drooping moustache and a single lifted eyebrow. -->
+  <path fill="#dfaa80" d="M91 122l17-31 55-17 35 10 24 29-1 31-8 23-2 20-25 23-40 5-32-13-19-24-5-19-8-1-7-16 4-11 11 4z"/>
+  <path fill="#c38a6b" d="M161 83l37 1 24 29-1 31-8 23-2 20-25 23-34 5 11-17 3-19-7-12 8-8-4-18 5-7z"/>
+  <path fill="#6b6660" d="M86 139l1 25 12 15 8-5-9-33z"/>
+  <path fill="#353136" d="M115 138l19-8 15 2-2 5-14-1-17 5zm56-7 14-5 16 3 1 4-16-2-16 5z"/>
+  <path class="eyes" fill="#332d30" d="M128 142l6-1 1 12-5 1zm53-6 6-1v10l-5 2z"/>
+  <path fill="#b77958" d="M157 144l11-4 11 17-11 8-15-6z"/>
+  <path fill="#ded2b8" d="M109 184l10-16 18-8 17-4 11 7 8-8 16-2 11 4 9 14-14-5-11 0-16 8-13-5-17 2-15 11-12 7z"/>
+  <path fill="#ada494" d="M113 186l12-13 19-8 13 0-14 7-16 12-18 7zm59-16 16-10 12 1 10 13-16-7-9 1z"/>
+  <!-- Dented kettle hat. Its low brim throws the upper face into shadow. -->
+  <path fill="#3b4653" d="M78 111l8-32 19-24 24-11 17-11 23 3 33 17 17 22 7 21 15 8-3 13-24 6-49-4-47 4-39 13-12-7z"/>
+  <path fill="#778486" d="M86 102l10-27 18-17 22-9 13-9-9 19-6 26-6 11z"/>
+  <path fill="#a1aaaa" d="M148 39l13-1 13 5 6 14-11-8-15 2z"/>
+  <path fill="#59636b" d="M157 50l15 1 22 14 16 28-44-3z"/>
+  <path fill="#bfa16e" d="M84 103l46-11 44-4 41 5 3 7-43-4-43 4-50 12z"/>
+  <path fill="#49555e" d="M66 121l21-15 43-9 47-5 39 5 23 7 7 8-28 6-44-6-51 4-40 12-19 2z"/>
+  <path fill="#292d36" d="M64 128l18-4 40-12 52-6 45 6 27-3-6 8-22 6-44-6-49 3-42 13-18 2z"/>
+  <g fill="#b7b3a0"><path d="M101 105l4-2 2 2-4 2zM190 96l4 0 1 3-4 0z"/></g>
+  <!-- The lantern's square of warm glass brings the watchman indoors. -->
+  <path fill="none" stroke="#c0a274" stroke-width="4" d="M227 273q-9-26 6-30 16-3 15 23"/>
+  <path fill="#6c5046" d="M268 245l-11-5-11 1-8 5-8-2-5 2 1 5 11 5 13-1 10 6 9-7z"/><path fill="#8f6c55" d="M227 245l9 2 4 3 10-3-5 7-10-1-10-5z"/>
+  <path fill="#b1805c" d="M211 276l24-15 28 11 3 6-7 42h-40z"/><path fill="#493d39" d="M216 279l44-3-5 44h-34z"/>
+  <path fill="#f2b765" d="M222 283l12-1 1 35-10 1zm17-1 14-2-3 35-10 2z"/>
+</svg>

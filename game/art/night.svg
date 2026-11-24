@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1600 1000">
+  <title>Между дождём и огнём. Гостевой зал таверны</title>
+  <defs>
+    <clipPath id="opening"><path d="M-14 657V394L33 268l82-101L245 83 360 166l69 93 31 110v209z"/></clipPath>
+    <g id="pine" fill="#344c50"><path d="M0 0l-8 26 4-1-11 25 7-3-16 30 12-5-17 31 24-6v17h8l-2-18 23 6-17-32 10 4-15-28 6 2-9-22 3 1z"/></g>
+    <g id="cup">
+      <path fill="#637476" d="M23 5l12-2 6 5-1 14-7 5-9-1 1-5 7 1 3-4 0-9-9 1z"/>
+      <path fill="#718888" d="M0 3l26-2 1 37-5 5-22-2z"/><path fill="#a5ada0" d="M0 3l7 1-2 30-5 0z"/><path fill="#4c575c" d="M1 1l21-1 5 3-22 2z"/>
+    </g>
+    <g id="candle">
+      <path fill="#d3b080" d="M-5 0h11l-1 40h-9z"/><path fill="#f4d49b" d="M-5 0l5 2 6-2-1 11-2 2-2-7-2 2-3-1z"/>
+      <path class="wick" fill="#ffb851" d="M0 0l-5-8 1-8 6-9-1 9 5 7-1 6z"/><path fill="#ffe8a4" d="M0 0l-2-7 4-8 2 8z"/>
+    </g>
+    <style>
+      .rain{animation:fall 1.35s linear infinite}
+      .far-rain{animation:fall 2.1s -.8s linear infinite}
+      .flame,.wick{transform-box:fill-box;transform-origin:50% 100%;animation:flicker 1.4s ease-in-out infinite alternate}
+      .second{animation-delay:-.9s;animation-duration:1.9s}
+      @keyframes fall{from{transform:translate(10px,-48px);opacity:0}18%,77%{opacity:.55}to{transform:translate(-10px,48px);opacity:0}}
+      @keyframes flicker{0%,100%{transform:scale(.95,.91) skewX(-2deg)}47%{transform:scale(1.03,1.04) skewX(2deg)}}
+      @media(prefers-reduced-motion:reduce){.rain,.far-rain,.flame,.wick{animation:none}}
+    </style>
+  </defs>
+
+  <!-- The shutters open towards a wet blue courtyard. The opposite wall faces the fire. -->
+  <path fill="#765843" d="M0 0h1600v1000H0z"/>
+  <path fill="#9e7956" d="M0 77l629 106 153 358-214 135L0 760z"/>
+  <path fill="#64443a" d="M0 0h1600v83L923 217 385 155 0 94z"/>
+  <path fill="#4f3835" d="M840 177l760-114v673l-531-93z"/>
+  <path fill="#7c5140" d="M1053 231l547-102v461l-188-57-274 47z"/>
+  <path fill="#bc8f62" d="M-25 683V392l49-132 83-102L245 59l132 94 72 96 35 116v225z"/>
+  <path fill="#503d39" d="M-17 663V391l42-122 89-105 131-92 117 86 75 97 33 112v220z"/>
+
+  <g clip-path="url(#opening)">
+    <path fill="#889ba8" d="M-25 60h506v617H-25z"/>
+    <path fill="#b1b8b5" d="M-25 245l66-14 62 15 57-6 65 17-19 8-111-7-46 5-74-3zm251-66 55-10 55 11 39-1 64 23-77-4-35 3-47-10z"/>
+    <circle cx="298" cy="206" r="38" fill="#f2e4b6"/>
+    <path fill="#798e98" d="M-20 371l79-55 53 12 83-58 61 35 48-18 75 36 90-28v180H-20z"/>
+    <path fill="#627d80" d="M-10 396l91-45 60 12 95-36 86 27 60-13 89 28v98H-10z"/>
+    <!-- Staggered gables rather than a repeated skyline. -->
+    <path fill="#4c656a" d="M-10 418l45-29 29 14 37-26 17 8v-43l13-17 5-30 6 30 13 16v39l25-10 25 23 24-21 19 6v-43l16-22 6-41 6 41 16 22v43l19 11 26-22 26 11 24-17 19 10 23-21 40 24v54H-10z"/>
+    <g fill="#d4bd89"><path d="M130 352l4-4v13h-4zm8-2 4-3v13h-4zm134-4 5-4v14h-5zM176 386h4v7h-4zm81-8h4v9h-4z"/></g>
+    <path fill="#526e64" d="M-25 441l83-20 95 8 88-21 151 17 77-20v272H-25z"/>
+    <g transform="translate(351 326) scale(.68)"><use xlink:href="#pine"/></g>
+    <g transform="translate(374 321) scale(.84)"><use xlink:href="#pine"/></g>
+    <g transform="translate(399 347) scale(.62)"><use xlink:href="#pine"/></g>
+    <path fill="#739183" d="M-28 462l99-24 103 11 113-13 183 10v77l-259 30-239-12z"/>
+    <path fill="#bec2a9" d="M193 435l31 1 48 26-73 40-112 38-113 75v-61l77-42 97-31 71-22z"/>
+    <path fill="#4b665d" d="M387 447l63-7 25 12-7 141-171 24 16-85zM-20 453l66-11 55 19-6 13-59-6-56 18z"/>
+    <!-- Bare branches make a dark foreground against the far town. -->
+    <path fill="#303e43" d="M-17 650l23-87 17-107 11-99-5-72-31-72 0-37 36 69 17 18 10-48 1-67 14-28-3 81-6 70 14-15 30-34 21-53-7 39 21-17 23-39-13 39-27 32-27 41-29 38-6 69-18 93 12 85zm61-296 36-27 26-32 8-20 4 13 28-16-19 24-16 7-18 28-47 55z"/>
+    <g stroke="#edf0d8" stroke-width="2" opacity=".67">
+      <path class="rain" d="M22 278l-4 17m63 34-4 17m40-93-4 18m36 140-4 19m56-143-4 20m47-106-4 19m42 189-3 15m71-131-4 19m50 70-3 16"/>
+      <path class="far-rain" d="M15 468l-2 12m102-141-3 13m64-125-3 13m17 234-2 12m44-153-3 13m105-64-3 15m36 90-3 13"/>
+    </g>
+  </g>
+  <!-- Warm reveal, two simple cusps and an oak sill. -->
+  <path fill="#694c3e" d="M-10 642l461-72 31 24-475 92z"/>
+  <path fill="#c59c6d" d="M-8 639l457-76 35 16-483 88z"/>
+  <path fill="#715b49" d="M-4 394l18-66 41-73 60-60 65 44 37 52 15 54 17-51 36-48 63-43 59 54 43 104-8 2-41-97-53-49-55 39-36 48-19 63-5 230-10 2 5-234-17-67-37-53-59-38-53 55-40 72-16 59z"/>
+  <g fill="none" stroke="#715b49" stroke-width="5">
+    <path d="M115 196q46-50 104-28m45-2q44-15 84 37m-116 126q1-73 9-125"/>
+    <circle cx="241" cy="178" r="26"/>
+    <path stroke-width="3.5" d="M241 153q23 11 0 25-23-14 0-25zm25 25q-11 23-25 0 14-23 25 0zm-25 25q-23-11 0-25 23 14 0 25zm-25-25q11-23 25 0-14 23-25 0z"/>
+  </g>
+  <path fill="#b48b60" d="M465 365l11-30 28 32v202l-19 13-10-215z"/>
+  <path fill="#493433" d="M492 191l75 12-7 460-66-49z"/><path fill="#805841" d="M492 191l12 4 5 427-15-8z"/>
+
+  <!-- The leather hanging and the sloped chimney scar the right-hand wall. -->
+  <path fill="#452831" d="M1082 133l175-32-8 188-76 87-89-39z"/>
+  <path fill="#943f46" d="M1089 130l156-28-8 182-68 79-77-37z"/>
+  <path fill="#b75451" d="M1092 131l24-5-3 202-20-7zm108-19 20-4-6 201-23 26z"/>
+  <path fill="#69313b" d="M1125 119l18-3-5 217-11-20zM1233 104l12-2-8 182-15 19z"/>
+  <!-- The same owl and key are stamped on the back of the deck. -->
+  <g transform="translate(1166 225) rotate(-8) scale(1.18)"><g fill="#e4c28b">
+      <path d="M-37-37l19 10 17-4 20 4 16-13-2 28 8 17 0 20-12-8-4 17-11-7-13 17-13-14-12 6-3-16-12 6 3-24 5-15z"/>
+      <path fill="#8b3d43" d="M-27-15l17 2 10 8-6 13-13-2-7-9zm54 0-17 2L0-5l6 13 13-2 7-9z"/>
+      <path d="M-20-7l10 4-5 4-5-3zm40 0-10 4 5 4 5-3z"/>
+      <path fill="#8b3d43" d="M-4 6l4-3 4 3-4 8zM-31 9l11 10 3 10-10-7zm62 0-11 10-3 10 10-7zM-7 21l7 5 7-5-7 11z"/>
+      <path d="M-37 46h58v5h-58zm7 2v13h5v-7h5v-6z"/>
+      <path fill-rule="evenodd" d="M27 39l8 4 1 9-7 6-9-3-2-9zm1 5-5 4 2 5 5-1 2-4z"/>
+      <path d="M-12 35h5l2 13-5 4zm21 0h5l-1 15-6-1z"/>
+    </g></g>
+  <path fill="#4b3836" d="M1322 0h210l-2 176 70 90v83l-359 19-10-40 87-143z"/>
+  <path fill="#89604b" d="M1339 0h75l-8 179-62 129-94 17 80-142z"/>
+  <path fill="#ae7b54" d="M1355 30l45-1-2 8-46 3zm-8 91 38 0-3 8-38 2zM1294 263l41-9-4 11-44 10z"/>
+  <path fill="#35282b" d="M1216 329l390-32v37l-386 40z"/><path fill="#ae7951" d="M1210 318l393-33 8 12-392 45z"/>
+  <path fill="#9b694e" d="M1226 376l374-38v352l-403-90z"/>
+  <path fill="#d19765" d="M1213 376l60-9-5 71-52 60zm65-9 103-12-40 32-65 39zm120-12 77-9-37 20-49 12z"/>
+  <path fill="#492b30" d="M1243 594l8-75 24-48 64-54 81-52 78 40 55 56 24 62 11 144z"/>
+  <path fill="#775044" d="M1247 609l6-79 22-46 71-59 75-44 69 36 53 53 23 57 4 46-17-11-9-42-26-43-43-40-53-30-61 36-53 47-29 48-8 59z"/>
+  <path fill="#602f32" d="M1280 581l15-56 52-59 76-52 75 45 40 51 16 107z"/>
+  <path fill="#8d4236" d="M1299 572l21-47 47-48 54-33 62 35 35 40 17 75z"/>
+  <g class="flame">
+    <path fill="#e5823e" d="M1306 579l20-44-1-37 23 20 7 24 31-49-3-53 27 34 8 41 26-28 13-33 9 34-10 43 29-18 21-36 7 43-29 78z"/>
+    <path fill="#ffbd63" d="M1340 585l20-32 9-33 8 22 21-23 10-30 8 28-9 36 19-16 16-27 5 29-13 42 24-10-10 24z"/>
+  </g>
+  <path class="flame second" fill="#f8a04c" d="M1486 591l13-25 17-17 11-26 4 24-12 42z"/>
+  <path fill="#412c2c" d="M1284 590l177-26 20 9-14 13-167 18zm34-25 181 29-11 16-176-32z"/>
+  <path fill="#bf8054" d="M1192 598l409 76 12 27-450-78z"/>
+  <path fill="#5a3732" d="M1163 623l450 78v26l-450-74z"/>
+  <!-- A cat curled up just outside the heat. -->
+  <path fill="#2d2730" d="M1206 607q12-35 41-29l13 6-1-22 12 11 9-2 10-12 2 22-7 14q-13 17-48 17-28 2-37-4z"/>
+  <path fill="#65444a" d="M1206 603q8-24 33-24l9 3-15 3-15 13 7 5 18-1-9 6-21 0z"/>
+  <path fill="#c9a66f" d="M1265 581l8 2 1 3-7-2zm12 2 8-5-2 5-5 3z"/>
+
+  <!-- The low ceiling and the floor join both halves of the room. -->
+  <path fill="#312729" d="M0 0h1600v43L963 166l-25-18 498-116-623 73L0 46z"/>
+  <path fill="#422e2c" d="M0 0h63l463 178-8 25L0 41zm1600 0h-61l-258 205 6 21 313-193z"/>
+  <path fill="#73513c" d="M0 43l515 156 6 13L0 62zm1305 169L1538 6l17 1-246 174z"/>
+  <path fill="#4a382f" d="M0 752l506-119 481-5 613 104v268H0z"/>
+  <path fill="#6b5040" d="M0 783l569-118-104 36L0 824zm269 217 368-315 35-9-292 324zm1331-171-544-159 57 5 487 123z"/>
+  <path fill="#b28e63" d="M26 696l404-78-77 122L0 823z"/><path fill="#806649" d="M0 771l367-93-9 21L0 795z"/>
+
+  <!-- Front counter in steep perspective. Mug, breadboard and broad-bellied jug. -->
+  <path fill="#352726" d="M-21 749l319-87 226 68-5 38-54 11-17 221h-22l-1-211-344 87-14 124H40l2-122-63 15z"/>
+  <path fill="#995c3b" d="M-22 733l319-85 234 71-2 18L0 864z"/>
+  <path fill="#be7b49" d="M-20 726l317-85 234 75-530 134z"/>
+  <path fill="#8e5538" d="M-12 768l360-99 8 3L-6 781zm58 66 426-120 8 2L63 836z"/>
+  <path fill="#794632" d="M256 722l129-14 28 13-147 15z"/>
+  <path fill="#d09a60" d="M250 717l18-17 57-13 34 5 18 11-16 12-71 15-34-4z"/>
+  <path fill="#8a4f36" d="M274 702l12 10 8-2-10-11zm25-8 15 12 8-1-12-13z"/>
+  <g transform="translate(195 684) rotate(-4) scale(1.28)"><use xlink:href="#cup"/></g>
+  <g transform="translate(337 675) scale(.82)"><use xlink:href="#cup"/></g>
+  <path fill="#4b493f" d="M56 645l-15-11-1-10 6-8 17 1 8 10-2 20 13 0 2-22-12-19-26-4-13 11 0 23 14 17z"/>
+  <path fill="#53635e" d="M69 612l-7-8 6-7 48-1 9 4-6 11-7 6 0 22 19 25 8 36-5 36-20 16-48-2-22-20-2-37 10-31 21-24z"/>
+  <path fill="#829584" d="M65 662l17-22 0-27 10 1-1 27-15 30-6 44-12 4-6-26z"/>
+  <path fill="#394745" d="M119 654l12 11 8 35-5 36-20 16-36-1 35-15 9-32z"/>
+  <path fill="#b5b39a" d="M65 597l50-3 13 5-12 8-46 1-10-5z"/><path fill="#4a5350" d="M72 601l43-4 5 2-8 4-40 2z"/>
+  <!-- A foreground chair frames the room without covering the guests. -->
+  <path fill="#3b292b" d="M-30 900l112-28 20 10-4 12 8 106H83l-8-101-92 23z"/>
+  <path fill="#312526" d="M1193 756l229-85 190 48v86l-400 114-13-24z"/>
+  <path fill="#935c40" d="M1179 754l240-86 196 44-4 32-272 79z"/>
+  <path fill="#ad714b" d="M1178 750l244-88 184 42-269 91z"/>
+  <path fill="#6b4436" d="M1218 765l244-88 8 1-245 89zm90 21 248-89 6 2-245 89z"/>
+  <g transform="translate(1321 707) scale(.93)"><use xlink:href="#cup"/></g>
+  <path fill="#a4865b" d="M1370 730l26-13 3-61-25-24-6-28 7-1 7 24 17 15 1-63 7-2 1 59 18-18 7-26 7 2-5 30-27 28 3 66 21 8-5 4-49 3z"/>
+  <path fill="#dbb277" d="M1364 602l17-2-3 6-12 3zm28-24 20-2-4 8-12 1zm34 14 18-1-3 6-13 2z"/>
+  <use xlink:href="#candle" transform="translate(1370 566) scale(.88)"/><use xlink:href="#candle" transform="translate(1402 541) scale(.92)"/><use xlink:href="#candle" transform="translate(1435 554) scale(.92)"/>
+  <path fill="#2c2125" d="M1509 1000l-23-116-15-20 5-15-6-109-5-7 0-19 9-7 5-37 7-10 11 11 2 37 7 7-2 20-5 6 5 65 61-18 5-88-5-8 4-18 7-8 7-20 9 9 1 59-5 78 16-3v210z"/>
+</svg>
