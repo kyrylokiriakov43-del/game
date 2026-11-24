@@ -1,6 +1,6 @@
 // Local audio assets: no network or Web Audio dependencies.
 const musicFiles = ['tavern','street','bakehouse','workshop','watchroom','hearth','postroom',
-  'ferry','ferry_watch','ferry_window','victory','death'];
+  'ferry','ferry_watch','ferry_window','high_water','victory','death'];
 const sfxFiles = ['card_draw','card_place','card_flip','swipe_left','swipe_right','card_cancel',
   'hover','choice','seal_stamp','interface','page_turn','book_open','book_close','coins',
   'stat_up','stat_down','warning','curse','death_hit','victory_chime','door_open','door_close',
@@ -49,6 +49,7 @@ function sound(key) {
 function audioScene(card, stage, isChapter, lastEnding) {
   if (stage === 'victory' || stage === 'death') return {music:stage,ambience:[]};
   if (stage === 'book') return {music:lastEnding,ambience:[]};
+  if (card?.story === 'high-water') return {music:'high_water',ambience:['river']};
   if (card?.ferry) {
     const music = card.id === 'ferry-watch' ? 'ferry_watch' :
       card.id === 'ferry-window' ? 'ferry_window' : 'ferry';

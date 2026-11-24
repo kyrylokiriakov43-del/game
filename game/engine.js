@@ -6,7 +6,7 @@ const settings = document.querySelector('details');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const seals = ['key','boots','hammer','loaf','coins','lantern','quill','hourglass','shield','cup','branch','bench'];
 const statIds = Object.keys(stats);
-const chaptersById = new Map(chapterCards.map(card => [card.id, card]));
+const chaptersById = new Map([...chapterCards, ...highWaterCards].map(card => [card.id, card]));
 const ferryById = new Map(ferryCards.map(card => [card.id, card]));
 
 let values, flags, seen, recent, current, turn, pendingVisit;
@@ -83,8 +83,9 @@ function nextCard() {
   if (pendingVisit && turn >= pendingVisit.due) {
     const next = chaptersById.get(pendingVisit.id);
     pendingVisit = null;
-    return next;
+    if (!next.once || !seen.has(next.id)) return next;
   }
+  if (!seen.has(chapterCards[0].id)) return chapterCards[0];
   const available = houseCards.filter(card => (!card.requires || flags.has(card.requires))
     && (!card.once || !seen.has(card.id)));
   let pool = available.filter(card => !recent.includes(card.id));
@@ -185,9 +186,11 @@ function show(card) {
   } else {
     const [name, role, portrait, scene = 'card-scene.svg'] = guests[card.guest];
     el('portrait').src = 'art/' + portrait;
-    el('scene').src = 'art/' + scene;
+    el('portrait').hidden = Boolean(card.illustration);
+    el('scene').src = 'art/' + (card.illustration ?? scene);
+    el('scene').alt = card.illustrationAlt ?? '';
     el('name').textContent = name;
-    el('role').textContent = role;
+    el('role').textContent = card.story === 'high-water' ? role + ' · Высокая вода' : role;
   }
   const version = Object.keys(card.variants ?? {}).find(flag => flags.has(flag));
   el('line').textContent = version ? card.variants[version] : card.line;
@@ -216,7 +219,7 @@ function clearDrag() {
   cardNode.classList.remove('dragging');
 }
 
-function restart() {
+function restart(firstCard = chapterCards[0]) {
   if (phase === 'book') sound('book_close');
   clearTimeout(timer);
   clearDrag();
@@ -231,7 +234,7 @@ function restart() {
   turn = 1;
   settings.open = false;
   updateMeters();
-  show(chapterCards[0]);
+  show(firstCard);
 }
 
 function closeInn(cause) {
@@ -395,7 +398,8 @@ buttons.forEach((button, side) => {
 });
 
 el('advance').onclick = () => advance();
-el('again').onclick = el('new-life').onclick = el('reset').onclick = restart;
+el('again').onclick = el('new-life').onclick = el('reset').onclick = () => restart();
+el('start-high-water').onclick = () => restart(highWaterCards[0]);
 document.onkeydown = event => {
   if (event.key === 'Escape') {
     if (drag) { clearDrag(); setPreview(null); cardNode.style.transform = ''; }
