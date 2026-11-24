@@ -48,4 +48,4 @@ const keepsakes = {
   'winter-boots':{title:'Башмаки Раи', text:'На заработанное Лидой ученица купила первые непромокаемые башмаки.', panel:5, resolution:true},
   beechwood:{title:'Буковое полено', text:'Лидиного жалованья хватило на сухие дрова для ночного зала.', panel:6, resolution:true}
 };
-const tracks = {fire:'', rain:'', music:'', choice:'', interface:''};
+// Music and sound effect paths are configured in audio.js.

@@ -132,6 +132,7 @@ function setPhase(nextPhase) {
   let advanceLabel = 'Следующий гость';
   if (current.ferry) advanceLabel = pendingFerry ? 'Дальше' : 'Вернуться в таверну';
   el('advance').textContent = ending ? 'Открыть гостевую книгу' : advanceLabel;
+  syncAudio();
 }
 
 function lockFace(frozen) {
@@ -150,6 +151,8 @@ function dealFace() {
   void cardNode.offsetWidth;
   cardNode.style.transition = '';
   cardNode.classList.add('deal');
+  if (phase === 'guest') sound('card_draw');
+  else if (phase === 'paper') sound('card_flip');
   timer = setTimeout(() => {
     cardNode.classList.remove('deal');
     lockFace(false);
@@ -162,7 +165,12 @@ function paintFerry(node, panel) {
 }
 
 function show(card) {
+  const wasAtDoor = Boolean(current?.atDoor);
+  const wasAtFerry = Boolean(current?.ferry);
   current = card;
+  if (card.atDoor && !wasAtDoor) sound('door_open');
+  if (!card.atDoor && wasAtDoor) sound('door_close');
+  if (card.ferry && !wasAtFerry) sound('ferry_bell');
   seen.add(card.id);
   recent.push(card.id);
   if (recent.length > balance.cooldown) recent.shift();
@@ -209,6 +217,7 @@ function clearDrag() {
 }
 
 function restart() {
+  if (phase === 'book') sound('book_close');
   clearTimeout(timer);
   clearDrag();
   setPreview(null);
@@ -229,6 +238,7 @@ function closeInn(cause) {
   const value = values[cause];
   const ending = value === 0 ? stats[cause].low : stats[cause].high;
   setPhase('death');
+  sound('death_hit');
   const meter = el('meter-' + cause);
   meter.classList.add('fatal');
   meter.setAttribute('aria-valuetext', value + ' из ' + balance.max + '. Причина смерти.');
@@ -244,6 +254,7 @@ function finishFerry(id) {
   ferryEnding = ferryEndings[id];
   pendingVisit = pendingFerry = null;
   setPhase(ferryEnding.phase);
+  sound(ferryEnding.phase === 'victory' ? 'victory_chime' : 'death_hit');
   paintFerry(el('ferry-face'), ferryEnding.panel);
   el('ferry-face').setAttribute('aria-label', ferryEnding.title);
   el('line').textContent = ferryEnding.line;
@@ -259,6 +270,7 @@ function openBook() {
   const stars = ferryEnding?.stars ?? (Number(proof) + Number(heard) + Number(Boolean(resolution)));
   const token = ferryEnding || keepsakes[resolution || (heard ? 'heard' : proof ? 'proof' : 'key')];
   setPhase('book');
+  sound('book_open');
   el('token-title').textContent = token.title;
   el('token-note').textContent = ferryEnding ? ferryEnding.note : token.text;
   const art = el('token-art');
@@ -286,6 +298,7 @@ function choose(side) {
   if (locked || phase !== 'guest') return;
   clearDrag();
   setPreview(null);
+  sound(side === 0 ? 'swipe_left' : 'swipe_right');
   sound('choice');
   const option = current.choices[side];
   if (option.ending) { finishFerry(option.ending); return; }
@@ -293,6 +306,16 @@ function choose(side) {
   for (const [id, steps] of Object.entries(option.effects)) values[id] = shifted(values[id], steps);
   updateMeters(previous);
   const cause = fatalStat(previous, values);
+  if (!cause) {
+    const near = value => value <= 2 * balance.step || value >= balance.max - 2 * balance.step;
+    if (statIds.some(id => near(values[id]) && !near(previous[id]))) sound('warning');
+    else if (values.curse !== previous.curse) sound('curse');
+    else if (values.gold !== previous.gold) sound('coins');
+    else {
+      const delta = statIds.reduce((total, id) => total + values[id] - previous[id], 0);
+      if (delta) sound(delta > 0 ? 'stat_up' : 'stat_down');
+    }
+  }
   dismiss(side, () => {
     if (cause) { closeInn(cause); return; }
     if (option.flag) flags.add(option.flag);
@@ -307,7 +330,7 @@ function choose(side) {
 
 function advance(side = 1) {
   if (locked || (phase !== 'paper' && !atEnding())) return;
-  sound('interface');
+  sound('page_turn');
   if (atEnding()) openBook();
   else dismiss(side, nextGuest);
 }
@@ -344,6 +367,7 @@ function release(event) {
     if (phase === 'paper') advance(side);
     else choose(side);
   } else {
+    if (!tap) sound('card_cancel');
     setPreview(null);
     cardNode.style.transform = '';
   }
@@ -354,6 +378,7 @@ buttons.forEach((button, side) => {
   button.onclick = () => choose(side);
   const previewReply = () => {
     if (locked || drag || phase !== 'guest') return;
+    sound('hover');
     setPreview(side);
     const sign = side === 0 ? -1 : 1;
     cardNode.style.transform = 'translate3d(' + sign * 3 + '%,-1%,0) rotate(' + sign * 2 + 'deg)';
@@ -368,30 +393,6 @@ buttons.forEach((button, side) => {
   button.onfocus = () => { if (button.matches(':focus-visible')) previewReply(); };
   button.onblur = clearReply;
 });
-
-const players = {};
-for (const [key, path] of Object.entries(tracks)) {
-  if (!path) continue;
-  const audio = players[key] = new Audio(path);
-  audio.loop = ['fire','rain','music'].includes(key);
-  audio.volume = .45;
-}
-function sound(key) {
-  const audio = players[key];
-  if (!audio || el('mute').checked || document.hidden) return;
-  if (!audio.loop) audio.currentTime = 0;
-  audio.play().catch(() => {});
-}
-function syncAudio() {
-  for (const [key, audio] of Object.entries(players)) {
-    audio.volume = Number(el('volume').value) / 100;
-    if (document.hidden || el('mute').checked) audio.pause();
-    else if (audio.loop) sound(key);
-  }
-}
-el('mute').onchange = () => { syncAudio(); sound('interface'); };
-el('volume').oninput = syncAudio;
-document.addEventListener('visibilitychange', syncAudio);
 
 el('advance').onclick = () => advance();
 el('again').onclick = el('new-life').onclick = el('reset').onclick = restart;
