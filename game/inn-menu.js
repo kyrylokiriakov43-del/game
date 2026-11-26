@@ -5,6 +5,7 @@ const stories = [
     notes:{'old-gods-refuge':'Странник рассказал о нарушенной клятве.', 'old-gods-council':'Стража узнала, что кольцо взял бургомистр.',
       'old-gods-hervor-armed':'Хервёр сохранила меч при себе.', 'old-gods-hervor-stored':'Хозяин запер Тюрфинг в сундуке.',
       'old-gods-hervor-accompany':'Хервёр согласилась присутствовать при переговорах.', 'old-gods-hervor-free':'Хервёр отдала Тюрфинг Гримниру.', 'old-gods-hervor-kept':'Хервёр сохранила наследство.',
+      'old-gods-alvis-repaid':'Вы вернули Альвису свою долю выигрыша Локи.', 'old-gods-alvis-refused':'Альвис оставил в расписке место для подписи Локи.',
       'old-gods-seer':'Вёльва предложила помощь Сигурда или дверга.', 'old-gods-draugr':'Хродгар потребовал вернуть кольцо.', 'old-gods-binding':'Дверг связал Хродгара волшебными узами.'},
     endings:Object.keys(oldGodsEndings)},
   {entry:'rent', title:'Шесть грошей', art:'morwen-coins.webp', cards:chapterCards,

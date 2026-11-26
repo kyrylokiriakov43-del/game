@@ -22,6 +22,17 @@ for(const c of all){
     if(o.ending) assert.ok(oldGodsEndings[o.ending]);
   }
 }
+const loki = byId.get('old-gods-loki');
+const alvis = byId.get('old-gods-alvis-repayment');
+assert.ok(loki.once && alvis.once);
+assert.equal(loki.choices[1].flag,alvis.requires);
+assert.equal(loki.choices[1].visitNow,alvis.id);
+assert.equal(loki.choices[0].visitNow,undefined);
+assert.equal(alvis.guest,'dwarf');
+assert.equal(alvis.choices[0].effects.gold,-loki.choices[1].effects.gold);
+assert.equal(alvis.choices[0].flag,'old-gods-alvis-repaid');
+assert.equal(alvis.choices[1].flag,'old-gods-alvis-refused');
+
 const endings = new Set(), visited = new Set();
 function visit(id, route=[]){
   assert.ok(!route.includes(id),'cycle in main story');

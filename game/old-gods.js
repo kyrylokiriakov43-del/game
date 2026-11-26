@@ -125,8 +125,17 @@ const oldGodsWalkIns = [
   eventCard("old-gods-loki", "loki",
     "Дверг поставил на кон золотой браслет. Я знаю ответ на его загадку. Подскажете ему, что игра нечестная, или поделим выигрыш?",
     choice("Предупрежу дверга.", {"reputation":1,"gold":-1}, "Дверг забрал браслет. Локи рассмеялся и исчез прежде, чем успели вернуть его ставку.", {}),
-    choice("Поделим золото.", {"gold":2,"curse":1}, "Локи отдал вам половину выигрыша. Утром дверг пришёл с требованием вернуть весь браслет.", {"flag":"old-gods-trick"}),
-    {"story":"old-gods","illustration":"fantasy/loki.svg","seals":["quill","coins"],"illustrationAlt":"Локи с золотым браслетом и хитрой улыбкой."}),
+    choice("Поделим золото.", {"gold":2,"curse":1}, "Локи отсчитал вашу долю. За окном Альвис всё ещё искал его.", {"flag":"old-gods-trick","visitNow":"old-gods-alvis-repayment"}),
+    {"story":"old-gods","illustration":"fantasy/loki.svg","once":true,"seals":["quill","coins"],"illustrationAlt":"Локи с золотым браслетом и хитрой улыбкой."}),
+
+  // Approved repayment artwork is exported separately; use the existing dwarf sketch until its WebP is committed.
+  eventCard("old-gods-alvis-repayment", "dwarf",
+    "Локи унёс мой браслет. Говорят, часть выигрыша досталась тебе. Вернёшь свою долю?",
+    choice("Верну серебро.", {"gold":-2,"reputation":1},
+      "Альвис пересчитал монеты. «Теперь осталось найти вторую половину неприятностей».", {"flag":"old-gods-alvis-repaid"}),
+    choice("Я за Локи не отвечаю.", {"reputation":-1},
+      "Альвис попросил записать эти слова на бумаге. Оставил место для подписи Локи.", {"flag":"old-gods-alvis-refused"}),
+    {"story":"old-gods","illustration":"fantasy/forge.svg","once":true,"requires":"old-gods-trick","seals":["coins","quill"],"illustrationAlt":"Временный портрет дверга Альвиса."}),
 
   eventCard("old-gods-norn", "norn",
     "У этого города два будущих. В одном погибнет ваш старый друг, в другом — незнакомец. Я могу назвать их имена. Хотите знать?",
