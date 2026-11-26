@@ -6,11 +6,14 @@ const settings = document.querySelector('details');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const seals = ['key','boots','hammer','loaf','coins','lantern','quill','hourglass','shield','cup','branch','bench'];
 const statIds = Object.keys(stats);
-const chaptersById = new Map([...chapterCards, ...highWaterCards].map(card => [card.id, card]));
-const ferryById = new Map(ferryCards.map(card => [card.id, card]));
+const chaptersById = new Map([...chapterCards, ...highWaterCards, ...barrelReturns, ...marketCards].map(card => [card.id, card]));
+const walkIns = [...houseCards, sevenMinutesCards[0], marketCards[0]];
+const storyTitles = {'high-water':'Высокая вода', 'seven-minutes':'Семь минут', 'first-loaf':'Первый хлеб'};
+const cardsById = new Map(deck.map(card => [card.id, card]));
 
-let values, flags, seen, recent, current, turn, pendingVisit;
-let pendingFerry, ferryEnding;
+let values, flags, seen, recent, current, turn, pendingVisit, returnVisits;
+let forecasts = [];
+let immediateVisit, ferryEnding;
 let phase, locked = true;
 let timer, feedbackTimer;
 let drag = null;
@@ -73,45 +76,79 @@ function fatalStat(before, after) {
   return cause;
 }
 
+function forecastChoice(option) {
+  const after = {...values};
+  if (option.ending) return {after, cause:null, notice:'Конец партии'};
+  for (const [id, steps] of Object.entries(option.effects)) after[id] = shifted(values[id], steps);
+  const cause = fatalStat(values, after);
+  return {after, cause, notice:cause ? 'Гибель · ' + stats[cause].label : ''};
+}
+
+// Voices in the common room reflect the current till, crowd, watch and hauntings.
+function pressureLine(card) {
+  const pressure = card.pressure;
+  if (!pressure) return null;
+  const value = values[pressure.stat];
+  const margin = 4 * balance.step;
+  if (pressure.bound === 'low' ? value <= margin : value >= balance.max - margin) return pressure.line;
+  return null;
+}
+
+function drawWeight(card) {
+  const relevance = card.requires || pressureLine(card) ? 4 : 1;
+  return (card.weight ?? 1) * relevance * (seen.has(card.id) ? 1 : 2);
+}
+
 function nextCard() {
-  if (pendingFerry) {
-    const next = ferryById.get(pendingFerry);
-    pendingFerry = null;
+  if (immediateVisit) {
+    const next = cardsById.get(immediateVisit);
+    immediateVisit = null;
     return next;
   }
-  if (turn === ferryVisit) return ferryCards[0];
   if (pendingVisit && turn >= pendingVisit.due) {
     const next = chaptersById.get(pendingVisit.id);
     pendingVisit = null;
     if (!next.once || !seen.has(next.id)) return next;
   }
+  // The crossing can open in a gap between appointments or after the flood recedes.
+  if (!seen.has(ferryCards[0].id) && (flags.has('mother-invited') || seen.has('water-mark'))) {
+    return ferryCards[0];
+  }
   if (!seen.has(chapterCards[0].id)) return chapterCards[0];
-  const available = houseCards.filter(card => (!card.requires || flags.has(card.requires))
-    && (!card.once || !seen.has(card.id)));
+  if (returnVisits.length && turn >= returnVisits[0].due) {
+    const visit = returnVisits.shift();
+    const card = cardsById.get(visit.id);
+    const alternate = card.alternateReturn;
+    return alternate && flags.has(alternate.flag) ? cardsById.get(alternate.id) : card;
+  }
+  const available = walkIns.filter(card => (!card.requires || flags.has(card.requires))
+    && (!card.once || !seen.has(card.id)) && !returnVisits.some(visit => visit.id === card.id));
   let pool = available.filter(card => !recent.includes(card.id));
   if (!pool.length) pool = available;
-  const echo = pool.find(card => card.requires);
-  if (echo) return echo;
-  let roll = Math.random() * pool.reduce((total, card) => total + (card.weight ?? 1), 0);
-  return pool.find(card => (roll -= card.weight ?? 1) < 0) || pool[pool.length - 1];
+  let roll = Math.random() * pool.reduce((total, card) => total + drawWeight(card), 0);
+  return pool.find(card => (roll -= drawWeight(card)) < 0) || pool[pool.length - 1];
 }
 
 function setPreview(side) {
   const option = phase === 'guest' ? current?.choices[side] : null;
+  const forecast = option ? forecasts[side] : null;
   const label = el('preview');
   label.hidden = !option;
   if (option) {
     label.firstElementChild.textContent = option.text;
-    label.lastElementChild.hidden = !option.ending;
+    label.lastElementChild.textContent = forecast.notice;
+    label.lastElementChild.hidden = !forecast.notice;
+    label.classList.toggle('fatal-choice', Boolean(forecast.cause));
     label.dataset.side = side;
   }
   buttons.forEach((button, index) => button.classList.toggle('selected', !!option && index === side));
   for (const id of statIds) {
     const meter = el('meter-' + id);
     const steps = option?.effects[id] ?? 0;
+    if (steps) meter.dataset.direction = steps > 0 ? 'up' : 'down';
+    else delete meter.dataset.direction;
     meter.classList.toggle('affected', Boolean(steps));
-    const predicted = steps ? shifted(values[id], steps) : null;
-    meter.classList.toggle('ominous', predicted === 0 || predicted === balance.max);
+    meter.classList.toggle('ominous', forecast?.cause === id);
   }
 }
 
@@ -131,7 +168,8 @@ function setPhase(nextPhase) {
   el('ferry-face').hidden = !current.ferry || story || book;
   el('scene').hidden = el('portrait').hidden = story || ending || Boolean(current.ferry);
   let advanceLabel = 'Следующий гость';
-  if (current.ferry) advanceLabel = pendingFerry ? 'Дальше' : 'Вернуться в таверну';
+  if (immediateVisit) advanceLabel = current.travelLabel ?? 'Дальше';
+  else if (current.ferry) advanceLabel = 'Вернуться в таверну';
   el('advance').textContent = ending ? 'Открыть гостевую книгу' : advanceLabel;
   syncAudio();
 }
@@ -157,7 +195,7 @@ function dealFace() {
   timer = setTimeout(() => {
     cardNode.classList.remove('deal');
     lockFace(false);
-    if (!settings.open && (phase === 'paper' || atEnding())) el('advance').focus({preventScroll:true});
+    if (!settings.open && !el('inn-menu').open && (phase === 'paper' || atEnding())) el('advance').focus({preventScroll:true});
   }, reducedMotion.matches ? 0 : 510);
 }
 
@@ -165,16 +203,23 @@ function paintFerry(node, panel) {
   node.style.backgroundPosition = (panel % 3 * 50) + '% ' + (Math.floor(panel / 3) * 100) + '%';
 }
 
-function show(card) {
+function show(card, restoring = false) {
   const wasAtDoor = Boolean(current?.atDoor);
   const wasAtFerry = Boolean(current?.ferry);
   current = card;
-  if (card.atDoor && !wasAtDoor) sound('door_open');
-  if (!card.atDoor && wasAtDoor) sound('door_close');
-  if (card.ferry && !wasAtFerry) sound('ferry_bell');
-  seen.add(card.id);
-  recent.push(card.id);
-  if (recent.length > balance.cooldown) recent.shift();
+  document.body.dataset.room = card.room ?? '';
+  if (!restoring) {
+    if (card.arrivalSound) sound(card.arrivalSound);
+    else if (card.atDoor && !wasAtDoor) sound('door_open');
+    if (!card.atDoor && wasAtDoor) sound('door_close');
+    if (card.ferry && !wasAtFerry) sound('ferry_bell');
+    seen.add(card.id);
+    recordStoryVisit(card.id);
+    if (!chaptersById.has(card.id) && !card.ferry) {
+      recent.push(card.id);
+      if (recent.length > balance.cooldown) recent.shift();
+    }
+  }
   setPhase('guest');
   document.body.classList.toggle('at-door', Boolean(card.atDoor));
   document.body.classList.toggle('at-ferry', Boolean(card.ferry));
@@ -185,31 +230,47 @@ function show(card) {
     el('role').textContent = card === ferryCards[0] ? 'Событие' : 'Событие · Последний паром';
   } else {
     const [name, role, portrait, scene = 'card-scene.svg'] = guests[card.guest];
-    el('portrait').src = 'art/' + portrait;
+    if (!card.illustration) el('portrait').src = 'art/' + portrait;
     el('portrait').hidden = Boolean(card.illustration);
     el('scene').src = 'art/' + (card.illustration ?? scene);
     el('scene').alt = card.illustrationAlt ?? '';
     el('name').textContent = name;
-    el('role').textContent = card.story === 'high-water' ? role + ' · Высокая вода' : role;
+    el('role').textContent = storyTitles[card.story] ? role + ' · ' + storyTitles[card.story] : role;
   }
   const version = Object.keys(card.variants ?? {}).find(flag => flags.has(flag));
-  el('line').textContent = version ? card.variants[version] : card.line;
+  el('line').textContent = version ? card.variants[version] : pressureLine(card) ?? card.line;
   el('night').textContent = 'Визит ' + String(turn).padStart(2, '0');
+  forecasts = card.choices.map(forecastChoice);
   buttons.forEach((button, index) => {
-    button.querySelector('.reply-text').textContent = card.choices[index].text;
-    button.querySelector('small').hidden = !card.choices[index].ending;
+    const option = card.choices[index];
+    const {after, notice, cause} = forecasts[index];
+    button.querySelector('.reply-text').textContent = option.text;
+    const changes = Object.entries(option.effects).map(([id, steps]) => {
+      const limit = after[id] === 0 || after[id] === balance.max ? ' до ' + after[id] : '';
+      return stats[id].label + (steps > 0 ? ' растёт' : ' падает') + limit;
+    });
+    if (notice) changes.push(notice);
+    button.setAttribute('aria-label', option.text + (changes.length ? ' ' + changes.join(', ') + '.' : ''));
+    const warning = button.querySelector('small');
+    warning.textContent = notice;
+    warning.hidden = !notice;
+    button.classList.toggle('fatal-choice', Boolean(cause));
     const column = Math.max(0, seals.indexOf(card.seals?.[index] ?? 'quill'));
     button.style.setProperty('--seal-position', column * 100 / (seals.length - 1) + '%');
   });
-  dealFace();
+  if (!restoring) { saveVisit(); dealFace(); }
 }
 
-function showPassage(option, side) {
+function showPassage(option, side, restoring = false) {
   setPhase('paper');
   cardNode.style.setProperty('--paper-x', side ? '4%' : '-4%');
   cardNode.style.setProperty('--paper-angle', side ? '2.3deg' : '-2.3deg');
   el('passage').textContent = option.passage;
   dealFace();
+  if (!restoring) {
+    saveVisit(side);
+    if (option.passageSound) sound(option.passageSound);
+  }
 }
 
 function clearDrag() {
@@ -220,6 +281,7 @@ function clearDrag() {
 }
 
 function restart(firstCard = chapterCards[0]) {
+  if (el('inn-menu').open) el('inn-menu').close();
   if (phase === 'book') sound('book_close');
   clearTimeout(timer);
   clearDrag();
@@ -229,7 +291,8 @@ function restart(firstCard = chapterCards[0]) {
   seen = new Set();
   recent = [];
   pendingVisit = null;
-  pendingFerry = null;
+  returnVisits = [];
+  immediateVisit = null;
   ferryEnding = null;
   turn = 1;
   settings.open = false;
@@ -238,6 +301,7 @@ function restart(firstCard = chapterCards[0]) {
 }
 
 function closeInn(cause) {
+  forgetVisit();
   const value = values[cause];
   const ending = value === 0 ? stats[cause].low : stats[cause].high;
   setPhase('death');
@@ -253,9 +317,52 @@ function closeInn(cause) {
   dealFace();
 }
 
+const bookClues = {
+  'watch-mark':'В ведомости осталось место для подписи того, кто получил деньги за Лиду.',
+  'hearth-book':'Агата знает руку сестры. У печи найдётся ещё один свидетель.',
+  'winter-boots':'Рая сушит чулки у печи. Спроси Лиду, на что ей хватит жалованья.',
+  beechwood:'Дровосек привёз сухой бук. Лида всё ещё решает, куда денет шесть грошей.',
+  beacon:'На дальнем берегу горит жёлтый фонарь. Интересно, кто зажигает его по утрам?',
+  undertow:'С лодки Устины видно белое окно. За стеклом кто-то ждёт.'
+};
+const rememberedEndings = new Set();
+const bookKey = id => 'inn-between.book.' + id;
+
+function rememberEnding(id) {
+  rememberedEndings.add(id);
+  try {
+    localStorage.setItem(bookKey(id), '1');
+  } catch {
+    // The session still keeps its entries when persistent storage is unavailable.
+  }
+}
+
+function showBookMemory() {
+  const ids = Object.keys(bookClues);
+  try {
+    for (const id of ids) {
+      if (localStorage.getItem(bookKey(id)) === '1') rememberedEndings.add(id);
+    }
+  } catch {
+    // The in-memory book also works with storage blocked.
+  }
+  const found = ids.filter(id => rememberedEndings.has(id));
+  el('memory-total').textContent = 'Историй в книге — ' + found.length + ' из ' + ids.length;
+  const titles = el('memory-titles');
+  titles.hidden = !found.length;
+  titles.textContent = found.map(id => (keepsakes[id] || ferryEndings[id]).title).join(' · ');
+  const missing = ids.filter(id => !rememberedEndings.has(id));
+  const next = missing.find(id => Boolean(ferryEndings[id]) === Boolean(ferryEnding)) || missing[0];
+  const clue = el('memory-clue');
+  clue.hidden = !next;
+  clue.textContent = bookClues[next] ?? '';
+}
+
 function finishFerry(id) {
+  forgetVisit();
+  rememberEnding(id);
   ferryEnding = ferryEndings[id];
-  pendingVisit = pendingFerry = null;
+  pendingVisit = immediateVisit = null;
   setPhase(ferryEnding.phase);
   sound(ferryEnding.phase === 'victory' ? 'victory_chime' : 'death_hit');
   paintFerry(el('ferry-face'), ferryEnding.panel);
@@ -272,18 +379,26 @@ function openBook() {
   const resolution = Object.keys(keepsakes).find(id => keepsakes[id].resolution && flags.has(id));
   const stars = ferryEnding?.stars ?? (Number(proof) + Number(heard) + Number(Boolean(resolution)));
   const token = ferryEnding || keepsakes[resolution || (heard ? 'heard' : proof ? 'proof' : 'key')];
+  const lastStory = lastStoryOfRun();
+  const episode = !ferryEnding && !stars && lastStory?.entry !== 'rent' ? lastStory : null;
   setPhase('book');
   sound('book_open');
-  el('token-title').textContent = token.title;
-  el('token-note').textContent = ferryEnding ? ferryEnding.note : token.text;
+  el('token-title').textContent = episode?.title || token.title;
+  const runNotes = episode ? Object.entries(episode.notes).filter(([id]) => flags.has(id) || seen.has(id)) : [];
+  el('token-note').textContent = episode ? (runNotes.at(-1)?.[1] || episode.hook) : ferryEnding ? ferryEnding.note : token.text;
   const art = el('token-art');
   art.classList.toggle('ferry-art', Boolean(ferryEnding));
-  if (ferryEnding) paintFerry(art, token.panel);
+  art.style.backgroundImage = episode ? 'url("art/' + episode.art + '")' : '';
+  art.style.backgroundSize = episode ? 'cover' : '';
+  if (episode) art.style.backgroundPosition = 'center';
+  else if (ferryEnding) paintFerry(art, token.panel);
   else art.style.backgroundPosition = token.panel * 100 / (Object.keys(keepsakes).length - 1) + '% center';
   el('stars').textContent = '★'.repeat(stars) + '☆'.repeat(3 - stars);
+  el('stars').hidden = Boolean(episode);
   el('stars').setAttribute('aria-label', 'Звёзд за ' + (ferryEnding ? 'переправу' : 'главу «Шесть грошей»') + ' — ' + stars + ' из 3');
   el('score').textContent = turn * 10 + stars * 30;
   el('visit-count').textContent = 'Визитов — ' + turn;
+  showBookMemory();
   el('new-life').focus({preventScroll:true});
 }
 
@@ -305,10 +420,10 @@ function choose(side) {
   sound('choice');
   const option = current.choices[side];
   if (option.ending) { finishFerry(option.ending); return; }
-  const previous = {...values};
-  for (const [id, steps] of Object.entries(option.effects)) values[id] = shifted(values[id], steps);
+  const previous = values;
+  const {after, cause} = forecasts[side];
+  values = after;
   updateMeters(previous);
-  const cause = fatalStat(previous, values);
   if (!cause) {
     const near = value => value <= 2 * balance.step || value >= balance.max - 2 * balance.step;
     if (statIds.some(id => near(values[id]) && !near(previous[id]))) sound('warning');
@@ -321,11 +436,16 @@ function choose(side) {
   }
   dismiss(side, () => {
     if (cause) { closeInn(cause); return; }
-    if (option.flag) flags.add(option.flag);
-    if (current.mark) flags.add(current.mark);
-    pendingFerry = option.ferryNext ?? null;
+    if (option.flag) { flags.add(option.flag); recordStoryVisit(option.flag); }
+    if (current.mark) { flags.add(current.mark); recordStoryVisit(current.mark); }
+    if (keepsakes[current.mark]?.resolution) rememberEnding(current.mark);
+    immediateVisit = option.visitNow ?? null;
     const next = option.next ?? current.next;
-    if (next) pendingVisit = {id:next, due:turn + (current.interlude ? 2 : 1)};
+    if (next) pendingVisit = {id:next, due:turn + (current.interlude ? 3 : 1)};
+    const promised = option.returnVisit ?? current.returnVisit;
+    if (promised && !seen.has(promised) && !returnVisits.some(visit => visit.id === promised)) {
+      returnVisits.push({id:promised, due:turn + 2});
+    }
     if (option.passage) showPassage(option, side);
     else nextGuest();
   });
@@ -399,8 +519,8 @@ buttons.forEach((button, side) => {
 
 el('advance').onclick = () => advance();
 el('again').onclick = el('new-life').onclick = el('reset').onclick = () => restart();
-el('start-high-water').onclick = () => restart(highWaterCards[0]);
 document.onkeydown = event => {
+  if (el('inn-menu').open) return;
   if (event.key === 'Escape') {
     if (drag) { clearDrag(); setPreview(null); cardNode.style.transform = ''; }
     settings.open = false;
@@ -422,5 +542,3 @@ document.onkeydown = event => {
     advance();
   }
 };
-
-restart();

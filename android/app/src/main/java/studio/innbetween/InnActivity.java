@@ -16,6 +16,7 @@ public final class InnActivity extends Activity {
         game = new WebView(this);
         game.setBackgroundColor(0xff160e12);
         game.getSettings().setJavaScriptEnabled(true);
+        game.getSettings().setDomStorageEnabled(true);
         game.getSettings().setAllowFileAccess(false);
         game.getSettings().setAllowContentAccess(false);
         FrameLayout screen = new FrameLayout(this);
@@ -34,5 +35,10 @@ public final class InnActivity extends Activity {
         game.loadUrl("file:///android_asset/index.html");
     }
     @Override protected void onPause() { game.onPause(); super.onPause(); }
+    @Override public void onBackPressed() {
+        game.evaluateJavascript("typeof handleInnBack === 'function' && handleInnBack()", handled -> {
+            if (!"true".equals(handled)) super.onBackPressed();
+        });
+    }
     @Override protected void onResume() { super.onResume(); game.onResume(); }
 }

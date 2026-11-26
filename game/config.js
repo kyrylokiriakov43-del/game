@@ -33,6 +33,7 @@ const balance = {max:100, step:7, cooldown:4};
 const guests = {
   morwen:['Морвен Вейл','Графиня','morwen.svg','card-scene.svg'],
   baker:['Агата','Пекарь','baker.svg','bakehouse.svg'],
+  woodseller:['Савва','Торговец дровами'],
   cooper:['Элиас','Бондарь','cooper.svg','workshop.svg'],
   guard:['Рутгер','Сержант стражи','guard.svg','watchroom.svg'],
   lida:['Лида','Истопница','lida.svg','hearth.svg'],

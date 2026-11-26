@@ -9,7 +9,7 @@
 </head>
 <body>
   <div class="room" aria-hidden="true"></div>
-  <main class="table" aria-label="The Inn Between">
+  <main class="table" aria-label="The Inn Between" hidden>
     <section id="meters" aria-label="Состояние таверны"></section>
     <section class="audience" aria-label="Встреча">
       <div class="speech" aria-live="polite"><p id="line"></p></div>
@@ -24,7 +24,7 @@
               <div id="ferry-face" class="ferry-art" role="img" hidden></div>
               <div id="paper" hidden><p id="passage" aria-live="polite"></p></div>
               <div id="last-scene" role="img" hidden></div>
-              <div id="preview" hidden aria-hidden="true"><span></span><small hidden>Конец партии</small></div>
+              <div id="preview" hidden aria-hidden="true"><span></span><small hidden></small></div>
             </article>
           </div>
         </div>
@@ -35,10 +35,10 @@
       <div class="brand"><img src="art/lantern.svg" alt="">The Inn Between</div>
       <div class="decision-row"><section id="choices" aria-label="Карточки ответов">
         <button type="button" class="reply left">
-          <span class="reply-art" aria-hidden="true"></span><span class="reply-copy"><span class="reply-text"></span><small hidden>Конец партии</small></span>
+          <span class="reply-art" aria-hidden="true"></span><span class="reply-copy"><span class="reply-text"></span><small hidden></small></span>
         </button>
         <button type="button" class="reply right">
-          <span class="reply-art" aria-hidden="true"></span><span class="reply-copy"><span class="reply-text"></span><small hidden>Конец партии</small></span>
+          <span class="reply-art" aria-hidden="true"></span><span class="reply-copy"><span class="reply-text"></span><small hidden></small></span>
         </button>
       </section>
       <div id="page-controls" hidden>
@@ -47,6 +47,7 @@
       </div></div>
       <div class="tools">
         <span id="night"></span>
+        <button type="button" id="desk-journal" class="text-button">Книга историй</button>
         <details>
           <summary aria-label="Настройки" title="Настройки">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h6m6 0h6M3 17h11m6 0h1"/><circle cx="12" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></svg>
@@ -55,7 +56,7 @@
             <p class="house-rule">Хозяин погибнет, если любая шкала дойдёт до 0 или 100.</p>
             <label><input id="mute" type="checkbox"> Без звука</label>
             <label for="volume">Громкость</label><input id="volume" type="range" min="0" max="100" value="45">
-            <button type="button" id="start-high-water">Начать «Высокую воду»</button>
+            <button type="button" id="desk-home">Главное меню</button>
             <button id="reset" type="button">Начать заново</button>
           </div>
         </details>
@@ -64,21 +65,62 @@
   </main>
   <section id="chronicle" aria-labelledby="book-title" hidden>
     <h1 id="book-title">Гостевая книга</h1>
-    <div class="tally"><strong id="score"></strong> очков <span id="visit-count"></span></div>
     <div class="keepsake">
       <div id="token-art" aria-hidden="true"></div>
       <h2 id="token-title"></h2>
       <div id="stars" role="img"></div>
     </div>
     <p id="token-note"></p>
-    <button id="new-life" type="button">Открыть таверну снова</button>
+    <div class="tally"><span id="visit-count"></span> · <strong id="score"></strong> очков</div>
+    <section id="book-memory" aria-labelledby="memory-total">
+      <h2 id="memory-total"></h2>
+      <p id="memory-titles"></p>
+      <p id="memory-clue"></p>
+    </section>
+    <div class="book-actions"><button id="new-life" type="button">Открыть таверну снова</button>
+      <button id="end-journal" type="button" class="text-button">Книга историй</button>
+      <button id="end-home" type="button" class="text-button">Главное меню</button></div>
   </section>
+  <dialog id="inn-menu" aria-labelledby="cover-title">
+    <section id="cover" class="cover">
+      <button id="cover-sound" class="cover-sound text-button" type="button">Звук включён</button>
+      <div class="cover-copy">
+        <h1 id="cover-title" lang="en"><span>The Inn</span> <em>Between</em></h1>
+        <p>Вы держите таверну на пороге двух миров. Кому откроете сегодня?</p>
+        <div class="cover-actions">
+          <button id="enter-inn" class="brass-button" type="button">Открыть таверну</button>
+          <button id="cover-journal" class="cover-link" type="button">Книга историй</button>
+        </div>
+        <details class="cover-help"><summary>Как играть</summary>
+          <p>Выберите один из двух ответов или потяните портрет в сторону. Над гостем подсветятся затронутые шкалы. Если любая дойдёт до 0 или 100, это будет последний визит.</p>
+        </details>
+      </div>
+    </section>
+    <section id="journal" hidden>
+      <header class="journal-head"><h1 id="journal-title">Книга историй</h1>
+        <button id="journal-back" type="button" class="text-button">Назад</button></header>
+      <div class="journal-spread">
+        <nav id="story-index" aria-label="Оглавление"></nav>
+        <article class="journal-page" aria-labelledby="story-name">
+          <img id="story-picture" alt="">
+          <div class="page-copy"><h2 id="story-name"></h2><p id="story-hook"></p>
+            <p id="story-promise" hidden></p><ul id="story-notes"></ul>
+            <button id="story-start" class="brass-button" type="button"></button>
+          </div>
+        </article>
+      </div>
+    </section>
+  </dialog>
   <script src="config.js"></script>
   <script src="cards.js"></script>
   <script src="ferry.js"></script>
   <script src="high-water.js"></script>
+  <script src="market.js"></script>
+  <script src="seven-minutes.js"></script>
+  <script src="first-loaf.js"></script>
   <script src="chapter.js"></script>
   <script src="audio.js"></script>
   <script src="engine.js"></script>
+  <script src="inn-menu.js"></script>
 </body>
 </html>

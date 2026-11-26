@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320"><title>Рутгер — свёрток Лиды</title>
+<path fill="#926455" d="M0 0H320V320H0z"/><path fill="#b86f61" d="M0 0H320V141L0 204z"/><path fill="#a8645b" d="M0 28l320-12v9L0 39zM246 76l74-10v9l-74 10zM255 123l65-8v8l-65 8z"/>
+<path fill="#4f3835" d="M251 0h69v181l-69-17z"/><path fill="#6f5042" d="M260 0h60v168l-60-19z"/><path fill="#d6a574" d="M265 0h6v156l-6-2z"/>
+<path fill="#39424d" d="M0 320V145l18-34 57-17 49 4 51 14 39 28 17 91-36 89z"/><path fill="#5b6a70" d="M0 177l18-66 57-17-22 26-28 57z"/><path fill="#6f7458" d="M0 187l70-58 22 13 29 43 43-54 25 10-51 65-22 77H0z"/><path fill="#505742" d="M0 204l72-64 13 6-58 54-20 72H0z"/><path fill="#c09a61" d="M51 147l8-7 100 109-13 4z"/>
+<g transform="translate(-24 -10) scale(.76)">
+  <path fill="#dfaa80" d="M91 122l17-31 55-17 35 10 24 29-1 31-8 23-2 20-25 23-40 5-32-13-19-24-5-19-8-1-7-16 4-11 11 4z"/>
+  <path fill="#c38a6b" d="M161 83l37 1 24 29-1 31-8 23-2 20-25 23-34 5 11-17 3-19-7-12 8-8-4-18 5-7z"/>
+  <path fill="#6b6660" d="M86 139l1 25 12 15 8-5-9-33z"/>
+  <path fill="#353136" d="M115 138l19-8 15 2-2 5-14-1-17 5zm56-7 14-5 16 3 1 4-16-2-16 5z"/>
+  <path  fill="#332d30" d="M128 142l6-1 1 12-5 1zm53-6 6-1v10l-5 2z"/>
+  <path fill="#b77958" d="M157 144l11-4 11 17-11 8-15-6z"/>
+  <path fill="#ded2b8" d="M109 184l10-16 18-8 17-4 11 7 8-8 16-2 11 4 9 14-14-5-11 0-16 8-13-5-17 2-15 11-12 7z"/>
+  <path fill="#ada494" d="M113 186l12-13 19-8 13 0-14 7-16 12-18 7zm59-16 16-10 12 1 10 13-16-7-9 1z"/>
+  <!-- Dented kettle hat. Its low brim throws the upper face into shadow. -->
+  <path fill="#3b4653" d="M78 111l8-32 19-24 24-11 17-11 23 3 33 17 17 22 7 21 15 8-3 13-24 6-49-4-47 4-39 13-12-7z"/>
+  <path fill="#778486" d="M86 102l10-27 18-17 22-9 13-9-9 19-6 26-6 11z"/>
+  <path fill="#a1aaaa" d="M148 39l13-1 13 5 6 14-11-8-15 2z"/>
+  <path fill="#59636b" d="M157 50l15 1 22 14 16 28-44-3z"/>
+  <path fill="#bfa16e" d="M84 103l46-11 44-4 41 5 3 7-43-4-43 4-50 12z"/>
+  <path fill="#49555e" d="M66 121l21-15 43-9 47-5 39 5 23 7 7 8-28 6-44-6-51 4-40 12-19 2z"/>
+  <path fill="#292d36" d="M64 128l18-4 40-12 52-6 45 6 27-3-6 8-22 6-44-6-49 3-42 13-18 2z"/>
+  <g fill="#b7b3a0"><path d="M101 105l4-2 2 2-4 2zM190 96l4 0 1 3-4 0z"/></g>
+  </g>
+<!-- The counter separates the figures; the parcel is still closed. -->
+<path fill="#61443a" d="M0 236l320-48v132H0z"/><path fill="#a87954" d="M0 226l320-50v28L0 261z"/><path fill="#c19465" d="M0 226l320-50v7L0 235z"/><path fill="#80543f" d="M0 280l320-50v7L0 289zM0 308l320-51v8L0 317z"/>
+<!-- forearm and open hand supporting an unopened packet -->
+<path fill="#39424d" d="M37 154l45-3 43 41 35 15-14 35-53-12-57-40z"/><path fill="#5b6a70" d="M37 154l45-3 43 41-17 10-46-28-25-1z"/><path fill="#292d36" d="M121 189l25 10-13 33-24-9z"/>
+<path fill="#c38a6b" d="M140 201l30-12 43 9 22 16 4 12-12 13-48 11-42-17z"/><path fill="#dfaa80" d="M140 201l30-12 43 9 22 16-14 6-24-6-24 11-31 3z"/><path fill="#9e6954" d="M178 241l46-14 15-1-12 13-48 11z"/>
+<!-- folded paper packet, tied with coarse string. No loose coins or writing. -->
+<path fill="#4f3835" d="M145 241l94-7 58 21-17 20-111 9-29-22z"/>
+<path fill="#9b7853" d="M151 210l39-23 81 4 27 32-13 26-100 22-40-29z"/><path fill="#e1c497" d="M151 210l39-23 81 4 27 32-108 30-45-11z"/><path fill="#c3a174" d="M145 242l45 11 108-30-13 26-100 22z"/><path fill="#efd6a4" d="M151 210l39-23 81 4-24 23-57 39-8-27z"/><path fill="#b59a74" d="M247 214l24-23 27 32-41 10-67 20z"/><path fill="#987653" d="M182 226l8 27-45-11 6-32z"/>
+<path fill="none" stroke="#6e5240" stroke-width="4" d="M184 190l59 47-1 23M155 229l98-26 27-9"/><path fill="none" stroke="#a08158" stroke-width="2" d="M185 190l59 46-1 23M155 228l99-26 26-9"/><path fill="#6e5240" d="M217 214l9-3 10 6-5 8-11 2-6-7z"/><path fill="none" stroke="#806043" stroke-width="3" d="M226 218q-23-25-27-9 0 8 27 9 25-22 30-10 1 8-30 10l13 15"/>
+</svg>

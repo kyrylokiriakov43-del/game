@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1536 1024">
+  <title>Отблеск огня и дождь за стеклом</title>
+  <defs>
+    <radialGradient id="fire">
+      <stop stop-color="#ffce73" stop-opacity=".55"/>
+      <stop offset=".52" stop-color="#ff923c" stop-opacity=".14"/>
+      <stop offset="1" stop-color="#ff923c" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="glass">
+      <path d="M0 331Q95 130 203 153L200 687 0 714ZM232 191Q325 145 407 313L410 682 229 689Z"/>
+    </clipPath>
+  </defs>
+  <style>
+    .glow{opacity:.45;animation:firelight 4.7s ease-in-out infinite alternate}
+    .rain{opacity:0;animation:drizzle 3.1s ease-in infinite}
+    @keyframes firelight{0%,58%{opacity:.22}36%,79%{opacity:.74}100%{opacity:.44}}
+    @keyframes drizzle{0%{opacity:0;transform:translate(0,-20px)}24%{opacity:.42}71%,100%{opacity:0;transform:translate(-8px,34px)}}
+    @media(prefers-reduced-motion:reduce){.glow,.rain{animation:none}}
+  </style>
+  <ellipse class="glow" cx="1383" cy="631" rx="171" ry="150" fill="url(#fire)"/>
+  <g clip-path="url(#glass)">
+    <path class="rain" d="m54 423-2 11m108 63-2 13m-61 72-2 12m166-213-2 11m85 121-2 13m-28 53-2 11" fill="none" stroke="#d6dfda" stroke-width="2"/>
+  </g>
+</svg>

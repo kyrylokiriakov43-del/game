@@ -1,16 +1,16 @@
 // Local audio assets: no network or Web Audio dependencies.
 const musicFiles = ['tavern','street','bakehouse','workshop','watchroom','hearth','postroom',
-  'ferry','ferry_watch','ferry_window','high_water','victory','death'];
+  'ferry','ferry_watch','ferry_window','high_water','harbor','victory','death'];
 const sfxFiles = ['card_draw','card_place','card_flip','swipe_left','swipe_right','card_cancel',
   'hover','choice','seal_stamp','interface','page_turn','book_open','book_close','coins',
   'stat_up','stat_down','warning','curse','death_hit','victory_chime','door_open','door_close',
-  'knock','ferry_bell','lantern'];
-const ambienceFiles = ['fire','rain','river','wind'];
+  'knock','ferry_bell','lantern','three_knocks','cup_relay','basin_drip','hoop_roll','bowl_tap','clock_hook'];
+const ambienceFiles = ['fire','rain','river','wind','harbor_water','harbor_rigging'];
 const guestMusic = {baker:'bakehouse',cooper:'workshop',guard:'watchroom',lida:'hearth',courier:'postroom'};
 const effectLevels = {hover:.12,choice:.38,swipe_left:.45,swipe_right:.45,card_draw:.38,
   card_flip:.42,card_cancel:.3,stat_up:.25,stat_down:.25,coins:.35,warning:.45,
   curse:.45,death_hit:.65,victory_chime:.65,ferry_bell:.55};
-const ambienceLevels = {fire:.30,rain:.30,river:.32,wind:.14};
+const ambienceLevels = {fire:.30,rain:.30,river:.32,wind:.14,harbor_water:.32,harbor_rigging:.20};
 const audioPlayers = new Map();
 let audioUnlocked = false, audioFade = null, endingMusic = 'death';
 
@@ -47,14 +47,23 @@ function sound(key) {
   playAudio(entry);
 }
 function audioScene(card, stage, isChapter, lastEnding) {
+  if (stage === 'cover') return {music:'tavern',ambience:['rain']};
+  if (stage === 'journal') return {music:'tavern',ambience:['fire']};
   if (stage === 'victory' || stage === 'death') return {music:stage,ambience:[]};
   if (stage === 'book') return {music:lastEnding,ambience:[]};
-  if (card?.story === 'high-water') return {music:'high_water',ambience:['river']};
+  if (card?.story === 'high-water') {
+    if (card.id === 'water-ledger') return {music:'harbor',ambience:['harbor_water','harbor_rigging']};
+    return {music:'high_water',ambience:[card.id === 'water-stairs' ? 'river' : 'harbor_water']};
+  }
   if (card?.ferry) {
     const music = card.id === 'ferry-watch' ? 'ferry_watch' :
       card.id === 'ferry-window' ? 'ferry_window' : 'ferry';
     return {music,ambience:['river','wind']};
   }
+  if (card?.room === 'market') return {music:'street',ambience:['wind']};
+  if (card?.room === 'lower-street') return {music:'street',ambience:['river']};
+  if (card?.room === 'cold-bakery') return {music:'bakehouse',ambience:[]};
+  if (card?.room === 'bakery') return {music:'bakehouse',ambience:['fire']};
   if (card?.atDoor) return {music:'street',ambience:['rain','wind']};
   return {music:isChapter ? (guestMusic[card?.guest] || 'tavern') : 'tavern',ambience:['fire']};
 }
@@ -82,7 +91,8 @@ function syncAudio() {
     }
     return;
   }
-  const scene = audioScene(current,phase,chaptersById.has(current?.id),endingMusic);
+  const menu = document.getElementById('inn-menu');
+  const scene = audioScene(current,menu.open ? menu.dataset.view : phase,chaptersById.has(current?.id),endingMusic);
   for (const entry of audioPlayers.values()) if (entry.loop) entry.target = 0;
   player(scene.music,true).target = .55;
   for (const key of scene.ambience) player(key,true).target = ambienceLevels[key];

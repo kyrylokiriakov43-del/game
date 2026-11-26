@@ -7,14 +7,15 @@ import sys
 import xml.etree.ElementTree as ET
 
 
+
 GAME = Path(__file__).resolve().parents[1] / "game"
 # Columns, rows and the side of a square cell in SVG coordinates.
 ATLASES = {
     "stats.svg": (4, 1, 48),
     "replies.svg": (12, 1, 32),
-    "last-night.svg": (4, 2, 320),
-    "keepsakes.svg": (7, 1, 160),
-    "ferry-cards.svg": (3, 2, 320),
+    "last-night.webp": (4, 2, 512),
+    "keepsakes.webp": (7, 1, 256),
+    "ferry-cards.webp": (3, 2, 512),
 }
 
 
@@ -24,7 +25,8 @@ def read_game_data():
     reader = r"""
 const fs = require('node:fs'), vm = require('node:vm');
 const read = name => fs.readFileSync(name, 'utf8');
-const data = ['config.js','cards.js','ferry.js','high-water.js','chapter.js'].map(read).join('\n');
+const scripts = Array.from(read('index.html').matchAll(/<script\s+src="([^"]+)"\s*>/g), match => match[1]);
+const data = scripts.filter(name => !['engine.js','audio.js','inn-menu.js'].includes(name)).map(read).join('\n');
 const match = read('engine.js').match(/\bconst\s+seals\s*=\s*(\[[^\]]*\])/);
 if (!match) throw Error('Cannot read seals in engine.js');
 const result = vm.runInNewContext(data + '\n;({guests,stats,keepsakes,ferryEndings,deck,seals:' + match[1] + '})');
@@ -41,6 +43,8 @@ console.log(JSON.stringify(result));
 
 
 def check():
+    from PIL import Image
+
     data = read_game_data()
     css = (GAME / "game.css").read_text(encoding="utf-8")
     html = (GAME / "index.html").read_text(encoding="utf-8")
@@ -52,7 +56,9 @@ def check():
     errors = []
     for guest, values in data["guests"].items():
         if len(values) < 3:
-            errors.append(f"{guest}: missing portrait filename")
+            uses = [card for card in data["deck"] if card.get("guest") == guest]
+            if len(values) < 2 or not uses or any(not card.get("illustration") for card in uses):
+                errors.append(f"{guest}: missing guest details or illustration for a portraitless guest")
             continue
         for name in (values[2], values[3] if len(values) > 3 else "card-scene.svg"):
             if not isinstance(name, str) or not name:
@@ -65,7 +71,10 @@ def check():
     for card in data["deck"]:
         if name := card.get("illustration"):
             images.add(name)
-            sizes[name] = (320, 320)
+            if name.lower().endswith(".svg"):
+                sizes[name] = (320, 320)
+            elif name.startswith("faces/"):
+                sizes[name] = (512, 512)
 
     for name, (cols, rows, side) in ATLASES.items():
         images.add(name)
@@ -78,6 +87,11 @@ def check():
         if name not in files:
             errors.append(f"missing game/art/{name} (case-sensitive)")
             continue
+        if name.lower().endswith(".webp"):
+            with Image.open(art / name) as image:
+                if name in sizes and image.size != sizes[name]:
+                    errors.append(f"{name}: expected {sizes[name]}, got {image.size}")
+                image.verify()
         if name.lower().endswith(".svg"):
             try:
                 root = ET.parse(art / name).getroot()
@@ -97,7 +111,7 @@ def check():
 
     for card in data["deck"]:
         if "ferry" in card:
-            check_panel(card["id"], card["ferry"], "ferry-cards.svg")
+            check_panel(card["id"], card["ferry"], "ferry-cards.webp")
         elif card.get("guest") not in data["guests"]:
             errors.append(f"{card['id']}: unknown guest {card.get('guest')}")
         for seal in card.get("seals", []):
@@ -105,11 +119,11 @@ def check():
                 errors.append(f"{card['id']}: unknown reply seal {seal}")
     for stat, item in data["stats"].items():
         for bound in ("low", "high"):
-            check_panel(f"{stat}.{bound}", item[bound], "last-night.svg")
-    for key, sheet in (("keepsakes", "keepsakes.svg"), ("ferryEndings", "ferry-cards.svg")):
+            check_panel(f"{stat}.{bound}", item[bound], "last-night.webp")
+    for key, sheet in (("keepsakes", "keepsakes.webp"), ("ferryEndings", "ferry-cards.webp")):
         for name, item in data[key].items():
             check_panel(name, item, sheet)
-    for key, sheet in (("seals", "replies.svg"), ("stats", "stats.svg"), ("keepsakes", "keepsakes.svg")):
+    for key, sheet in (("seals", "replies.svg"), ("stats", "stats.svg"), ("keepsakes", "keepsakes.webp")):
         if len(data[key]) != ATLASES[sheet][0]:
             errors.append(f"{key}: item count differs from column count in {sheet}")
     if errors:

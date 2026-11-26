@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320">
+  <title>Золотое тиснение по краю карты</title>
+  <defs>
+    <linearGradient id="ink" x2=".85" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#f7d4a0" stop-opacity=".10"/>
+      <stop offset=".5" stop-color="#f7d4a0" stop-opacity="0"/>
+      <stop offset="1" stop-color="#271323" stop-opacity=".12"/>
+    </linearGradient>
+    <g id="corner" fill="none" stroke-linejoin="round">
+      <path d="M8 29V14l6-6h15M11 24v-8l5-5h8" stroke="#35262c" stroke-width="2.7" opacity=".72"/>
+      <path d="M8 29V14l6-6h15M11 24v-8l5-5h8" stroke="#ebcf91" stroke-width="1"/>
+      <path d="m17 17 2-4 2 2-4 2Z" fill="#f2d9a6"/>
+    </g>
+  </defs>
+  <rect width="320" height="320" rx="8" fill="url(#ink)"/>
+  <rect x="1.5" y="1.5" width="317" height="317" rx="8" fill="none" stroke="#37282e" stroke-width="3"/>
+  <rect x="3.6" y="3.6" width="312.8" height="312.8" rx="5.8" fill="none" stroke="#e3c38c" stroke-width="1.2" opacity=".85"/>
+  <use href="#corner"/>
+  <use href="#corner" transform="rotate(90 160 160)"/>
+  <use href="#corner" transform="rotate(180 160 160)"/>
+  <use href="#corner" transform="rotate(270 160 160)"/>
+</svg>
