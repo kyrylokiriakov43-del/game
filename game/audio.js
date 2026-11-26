@@ -51,6 +51,7 @@ function audioScene(card, stage, isChapter, lastEnding) {
   if (stage === 'journal') return {music:'tavern',ambience:['fire']};
   if (stage === 'victory' || stage === 'death') return {music:stage,ambience:[]};
   if (stage === 'book') return {music:lastEnding,ambience:[]};
+  if (card?.story === 'old-gods') return {music:card.guest === 'revenant' ? 'ferry_window' : card.guest === 'dwarf' ? 'workshop' : 'ferry_watch',ambience:card.atDoor ? ['wind'] : ['fire']};
   if (card?.story === 'high-water') {
     if (card.id === 'water-ledger') return {music:'harbor',ambience:['harbor_water','harbor_rigging']};
     return {music:'high_water',ambience:[card.id === 'water-stairs' ? 'river' : 'harbor_water']};

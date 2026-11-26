@@ -6,9 +6,9 @@ const settings = document.querySelector('details');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const seals = ['key','boots','hammer','loaf','coins','lantern','quill','hourglass','shield','cup','branch','bench'];
 const statIds = Object.keys(stats);
-const chaptersById = new Map([...chapterCards, ...highWaterCards, ...barrelReturns, ...marketCards].map(card => [card.id, card]));
+const chaptersById = new Map([...chapterCards, ...highWaterCards, ...barrelReturns, ...marketCards, ...oldGodsChapter].map(card => [card.id, card]));
 const walkIns = [...houseCards, sevenMinutesCards[0], marketCards[0]];
-const storyTitles = {'high-water':'Высокая вода', 'seven-minutes':'Семь минут', 'first-loaf':'Первый хлеб'};
+const storyTitles = {'high-water':'Высокая вода', 'seven-minutes':'Семь минут', 'first-loaf':'Первый хлеб', 'old-gods':'Старые боги'};
 const cardsById = new Map(deck.map(card => [card.id, card]));
 
 let values, flags, seen, recent, current, turn, pendingVisit, returnVisits;
@@ -99,6 +99,8 @@ function drawWeight(card) {
   return (card.weight ?? 1) * relevance * (seen.has(card.id) ? 1 : 2);
 }
 
+function oldGodsRun() { return seen?.has(oldGodsChapter[0].id) ?? false; }
+
 function nextCard() {
   if (immediateVisit) {
     const next = cardsById.get(immediateVisit);
@@ -111,17 +113,17 @@ function nextCard() {
     if (!next.once || !seen.has(next.id)) return next;
   }
   // The crossing can open in a gap between appointments or after the flood recedes.
-  if (!seen.has(ferryCards[0].id) && (flags.has('mother-invited') || seen.has('water-mark'))) {
+  if (!oldGodsRun() && !seen.has(ferryCards[0].id) && (flags.has('mother-invited') || seen.has('water-mark'))) {
     return ferryCards[0];
   }
-  if (!seen.has(chapterCards[0].id)) return chapterCards[0];
+  if (!oldGodsRun() && !seen.has(chapterCards[0].id)) return chapterCards[0];
   if (returnVisits.length && turn >= returnVisits[0].due) {
     const visit = returnVisits.shift();
     const card = cardsById.get(visit.id);
     const alternate = card.alternateReturn;
     return alternate && flags.has(alternate.flag) ? cardsById.get(alternate.id) : card;
   }
-  const available = walkIns.filter(card => (!card.requires || flags.has(card.requires))
+  const available = (oldGodsRun() ? oldGodsWalkIns : walkIns).filter(card => (!card.requires || flags.has(card.requires))
     && (!card.once || !seen.has(card.id)) && !returnVisits.some(visit => visit.id === card.id));
   let pool = available.filter(card => !recent.includes(card.id));
   if (!pool.length) pool = available;
@@ -318,6 +320,9 @@ function closeInn(cause) {
 }
 
 const bookClues = {
+  'old-gods-peace':'Верните кольцо и восстановите договор с Хродгаром.',
+  'old-gods-keeper':'Одноглазый странник ищет хранителя новой клятвы.',
+  'old-gods-bound':'Дверг может выковать узы, которые удержат даже мёртвого.',
   'watch-mark':'В ведомости осталось место для подписи того, кто получил деньги за Лиду.',
   'hearth-book':'Агата знает руку сестры. У печи найдётся ещё один свидетель.',
   'winter-boots':'Рая сушит чулки у печи. Спроси Лиду, на что ей хватит жалованья.',
@@ -338,7 +343,7 @@ function rememberEnding(id) {
 }
 
 function showBookMemory() {
-  const ids = Object.keys(bookClues);
+  const ids = Object.keys(bookClues).filter(id => Boolean(oldGodsEndings[id]) === oldGodsRun());
   try {
     for (const id of ids) {
       if (localStorage.getItem(bookKey(id)) === '1') rememberedEndings.add(id);
@@ -350,7 +355,7 @@ function showBookMemory() {
   el('memory-total').textContent = 'Историй в книге — ' + found.length + ' из ' + ids.length;
   const titles = el('memory-titles');
   titles.hidden = !found.length;
-  titles.textContent = found.map(id => (keepsakes[id] || ferryEndings[id]).title).join(' · ');
+  titles.textContent = found.map(id => (keepsakes[id] || ferryEndings[id] || oldGodsEndings[id]).title).join(' · ');
   const missing = ids.filter(id => !rememberedEndings.has(id));
   const next = missing.find(id => Boolean(ferryEndings[id]) === Boolean(ferryEnding)) || missing[0];
   const clue = el('memory-clue');
@@ -361,15 +366,22 @@ function showBookMemory() {
 function finishFerry(id) {
   forgetVisit();
   rememberEnding(id);
-  ferryEnding = ferryEndings[id];
+  ferryEnding = ferryEndings[id] || oldGodsEndings[id];
   pendingVisit = immediateVisit = null;
   setPhase(ferryEnding.phase);
   sound(ferryEnding.phase === 'victory' ? 'victory_chime' : 'death_hit');
-  paintFerry(el('ferry-face'), ferryEnding.panel);
-  el('ferry-face').setAttribute('aria-label', ferryEnding.title);
+  if (ferryEnding.art) {
+    el('scene').src = 'art/' + ferryEnding.art;
+    el('scene').alt = ferryEnding.title;
+    el('scene').hidden = false;
+    el('ferry-face').hidden = true;
+  } else {
+    paintFerry(el('ferry-face'), ferryEnding.panel);
+    el('ferry-face').setAttribute('aria-label', ferryEnding.title);
+  }
   el('line').textContent = ferryEnding.line;
   el('name').textContent = ferryEnding.title;
-  el('role').textContent = ferryEnding.label + ' · Последний паром';
+  el('role').textContent = ferryEnding.label + (ferryEnding.art ? ' · Старые боги' : ' · Последний паром');
   dealFace();
 }
 
@@ -387,15 +399,16 @@ function openBook() {
   const runNotes = episode ? Object.entries(episode.notes).filter(([id]) => flags.has(id) || seen.has(id)) : [];
   el('token-note').textContent = episode ? (runNotes.at(-1)?.[1] || episode.hook) : ferryEnding ? ferryEnding.note : token.text;
   const art = el('token-art');
-  art.classList.toggle('ferry-art', Boolean(ferryEnding));
-  art.style.backgroundImage = episode ? 'url("art/' + episode.art + '")' : '';
-  art.style.backgroundSize = episode ? 'cover' : '';
-  if (episode) art.style.backgroundPosition = 'center';
+  const endingArt = episode?.art || ferryEnding?.art;
+  art.classList.toggle('ferry-art', Boolean(ferryEnding && !ferryEnding.art));
+  art.style.backgroundImage = endingArt ? 'url("art/' + endingArt + '")' : '';
+  art.style.backgroundSize = endingArt ? 'cover' : '';
+  if (endingArt) art.style.backgroundPosition = 'center';
   else if (ferryEnding) paintFerry(art, token.panel);
   else art.style.backgroundPosition = token.panel * 100 / (Object.keys(keepsakes).length - 1) + '% center';
   el('stars').textContent = '★'.repeat(stars) + '☆'.repeat(3 - stars);
   el('stars').hidden = Boolean(episode);
-  el('stars').setAttribute('aria-label', 'Звёзд за ' + (ferryEnding ? 'переправу' : 'главу «Шесть грошей»') + ' — ' + stars + ' из 3');
+  el('stars').setAttribute('aria-label', 'Звёзд за ' + (ferryEnding?.art ? '«Старых богов»' : ferryEnding ? 'переправу' : 'главу «Шесть грошей»') + ' — ' + stars + ' из 3');
   el('score').textContent = turn * 10 + stars * 30;
   el('visit-count').textContent = 'Визитов — ' + turn;
   showBookMemory();
@@ -441,7 +454,7 @@ function choose(side) {
     if (keepsakes[current.mark]?.resolution) rememberEnding(current.mark);
     immediateVisit = option.visitNow ?? null;
     const next = option.next ?? current.next;
-    if (next) pendingVisit = {id:next, due:turn + (current.interlude ? 3 : 1)};
+    if (next) pendingVisit = {id:next, due:turn + (typeof current.interlude === 'number' ? current.interlude + 1 : current.interlude ? 3 : 1)};
     const promised = option.returnVisit ?? current.returnVisit;
     if (promised && !seen.has(promised) && !returnVisits.some(visit => visit.id === promised)) {
       returnVisits.push({id:promised, due:turn + 2});
@@ -518,7 +531,7 @@ buttons.forEach((button, side) => {
 });
 
 el('advance').onclick = () => advance();
-el('again').onclick = el('new-life').onclick = el('reset').onclick = () => restart();
+el('again').onclick = el('new-life').onclick = el('reset').onclick = () => restart(oldGodsRun() ? oldGodsChapter[0] : chapterCards[0]);
 document.onkeydown = event => {
   if (el('inn-menu').open) return;
   if (event.key === 'Escape') {
