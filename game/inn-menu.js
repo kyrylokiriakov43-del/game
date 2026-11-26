@@ -3,6 +3,8 @@ const stories = [
   {entry:'old-gods-gate', title:'Старые боги · фэнтези', art:'fantasy/gate.svg', cards:[...oldGodsChapter,...oldGodsWalkIns],
     hook:'За городской стеной вскрыли курган. Одноглазый странник просит убежища, пока мёртвый хозяин кольца идёт к воротам. Отдельная фэнтезийная колода.',
     notes:{'old-gods-refuge':'Странник рассказал о нарушенной клятве.', 'old-gods-council':'Стража узнала, что кольцо взял бургомистр.',
+      'old-gods-hervor-armed':'Хервёр сохранила меч при себе.', 'old-gods-hervor-stored':'Хозяин запер Тюрфинг в сундуке.',
+      'old-gods-hervor-accompany':'Хервёр согласилась присутствовать при переговорах.', 'old-gods-hervor-free':'Хервёр отдала Тюрфинг Гримниру.', 'old-gods-hervor-kept':'Хервёр сохранила наследство.',
       'old-gods-seer':'Вёльва предложила помощь Сигурда или дверга.', 'old-gods-draugr':'Хродгар потребовал вернуть кольцо.', 'old-gods-binding':'Дверг связал Хродгара волшебными узами.'},
     endings:Object.keys(oldGodsEndings)},
   {entry:'rent', title:'Шесть грошей', art:'morwen-coins.webp', cards:chapterCards,
