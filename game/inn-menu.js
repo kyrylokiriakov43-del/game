@@ -1,5 +1,18 @@
 // An entry is the playable opening. Notes are written only after the associated visit or decision.
 const stories = [
+  {entry:'old-gods-gate', title:'Старые боги · фэнтези', art:'fantasy/gate.svg', cards:[...oldGodsChapter,...oldGodsWalkIns],
+    hook:'За городской стеной вскрыли курган. Одноглазый странник просит убежища, пока мёртвый хозяин кольца идёт к воротам. Отдельная фэнтезийная колода.',
+    notes:{'old-gods-refuge':'Странник рассказал о нарушенной клятве.', 'old-gods-council':'Стража узнала, что кольцо взял бургомистр.',
+      'old-gods-hervor-armed':'Хервёр сохранила меч при себе.', 'old-gods-hervor-stored':'Хозяин запер Тюрфинг в сундуке.',
+      'old-gods-hervor-accompany':'Хервёр согласилась присутствовать при переговорах.', 'old-gods-hervor-free':'Хервёр отдала Тюрфинг Гримниру.', 'old-gods-hervor-kept':'Хервёр сохранила наследство.',
+      'old-gods-mara-awake':'Вы разбудили гостя, которого преследовала Мара.',
+      'old-gods-nokk-song':'Нёкк спас ребёнка музыкой.', 'old-gods-nokk-silence':'Нёкк оборвал струны лютни.',
+      'old-gods-huldra-exchange':'Вы помогли вернуть ребёнка в лес.', 'old-gods-huldra-closed':'Хульдра закрыла тропу.',
+      'old-gods-haugbui-wait':'Эймунд дождался сына раненого.', 'old-gods-haugbui-release':'Вы дали раненому покой.',
+      'old-gods-dark-elf-paid':'Вы продлили договор Вельрана.', 'old-gods-dark-elf-return':'Вельран вернул погребальные дары.',
+      'old-gods-alvis-repaid':'Вы вернули Альвису свою долю выигрыша Локи.', 'old-gods-alvis-refused':'Альвис оставил в расписке место для подписи Локи.',
+      'old-gods-seer':'Вёльва предложила помощь Сигурда или дверга.', 'old-gods-draugr':'Хродгар потребовал вернуть кольцо.', 'old-gods-binding':'Дверг связал Хродгара волшебными узами.'},
+    endings:Object.keys(oldGodsEndings)},
   {entry:'rent', title:'Шесть грошей', art:'morwen-coins.webp', cards:chapterCards,
     hook:'Морвен предлагает двойную плату за комнату, которую вы уже обещали караулу.',
     notes:{curtains:'Морвен нашла за кроватью ведомость.', quarters:'Рутгер вынес из каморки простыню в саже.',
@@ -45,7 +58,7 @@ const innMenu = el('inn-menu');
 const storyMarks = new Set();
 const trackedMarks = new Set(stories.flatMap(story => [story.entry, ...Object.keys(story.notes)]));
 const runKey = 'inn-between.run.v1';
-let selectedStory = stories[0];
+let selectedStory = stories.find(story => story.entry === 'rent');
 let journalFromCover = true;
 
 function recordStoryVisit(id) {
@@ -185,8 +198,8 @@ function paintStory() {
   el('story-hook').textContent = s.hook;
   const notes = Object.entries(s.notes).filter(([id]) => storyMarks.has(id)).map(([,line]) => line);
   for (const id of s.endings ?? []) {
-    if (rememberedEndings.has(id)) notes.push((keepsakes[id] || ferryEndings[id]).title + ' — ' +
-      (keepsakes[id]?.text || ferryEndings[id].note));
+    if (rememberedEndings.has(id)) notes.push((keepsakes[id] || ferryEndings[id] || oldGodsEndings[id]).title + ' — ' +
+      (keepsakes[id]?.text || ferryEndings[id]?.note || oldGodsEndings[id]?.note));
   }
   el('story-notes').replaceChildren(...notes.map(line => {
     const li = document.createElement('li'); li.textContent = line; return li;
@@ -210,7 +223,7 @@ function openJournal(fromCover) {
   journalFromCover = fromCover;
   readMemories();
   const card = current || cardsById.get(savedVisit()?.card);
-  selectedStory = (card && storyForCard(card.id)) || stories[0];
+  selectedStory = (card && storyForCard(card.id)) || stories.find(story => story.entry === 'rent');
   const index = el('story-index');
   index.replaceChildren();
   for (const story of stories.filter(s => !s.incidental || hasStory(s))) {

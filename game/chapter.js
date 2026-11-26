@@ -137,4 +137,4 @@ const chapterCards = [
     {illustration:'faces/beechwood.webp', illustrationAlt:'Элиас прижимает к груди полено сухого бука.',
       mark:'beechwood', next:'water-notch', seals:['lantern','bench']})
 ];
-const deck = [...chapterCards, ...houseCards, ...barrelReturns, ...ferryCards, ...highWaterCards, ...marketCards, ...sevenMinutesCards, ...firstLoafCards];
+const deck = [...chapterCards, ...houseCards, ...barrelReturns, ...ferryCards, ...highWaterCards, ...marketCards, ...sevenMinutesCards, ...firstLoafCards, ...oldGodsChapter, ...oldGodsWalkIns];
